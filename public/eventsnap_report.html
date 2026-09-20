@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EventSnap — Phase 1 Work Summary</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --purple: #7c3aed;
+    --purple-light: #a78bfa;
+    --purple-bg: #f5f3ff;
+    --dark: #1e1b4b;
+    --text: #1f2937;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+    --bg-card: #fafafa;
+    --green: #059669;
+    --green-bg: #ecfdf5;
+    --blue: #2563eb;
+    --blue-bg: #eff6ff;
+    --amber: #d97706;
+    --amber-bg: #fffbeb;
+    --red: #dc2626;
+    --red-bg: #fef2f2;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    background: white;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* ── COVER PAGE ── */
+  .cover {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f0d1e 0%, #1e1a35 40%, #0f0d1e 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 40px;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(124,58,237,0.25) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: 20%;
+    right: 25%;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(79,70,229,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .cover-content { position: relative; z-index: 2; }
+
+  .cover-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+
+  .cover-logo-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5, #2563eb);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+  }
+
+  .cover-logo-text {
+    font-size: 36px;
+    font-weight: 900;
+    color: white;
+    letter-spacing: -0.5px;
+  }
+
+  .cover-logo-text span {
+    background: linear-gradient(135deg, #a78bfa, #818cf8, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .cover-badge {
+    display: inline-block;
+    background: rgba(124,58,237,0.25);
+    border: 1px solid rgba(124,58,237,0.4);
+    color: #c4b5fd;
+    padding: 6px 16px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .cover h1 {
+    font-size: 52px;
+    font-weight: 900;
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+  }
+
+  .cover h1 span {
+    background: linear-gradient(135deg, #a78bfa 0%, #818cf8 50%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .cover-subtitle {
+    font-size: 18px;
+    color: rgba(255,255,255,0.6);
+    max-width: 480px;
+    margin: 0 auto 48px;
+    font-weight: 400;
+  }
+
+  .cover-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(124,58,237,0.2);
+  }
+
+  .cover-meta-item { text-align: center; }
+  .cover-meta-item .val {
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #a78bfa, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+  }
+  .cover-meta-item .lbl {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+  }
+
+  .cover-date {
+    position: absolute;
+    bottom: 32px;
+    right: 40px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ── CONTENT PAGES ── */
+  .content { max-width: 900px; margin: 0 auto; padding: 60px 40px; }
+
+  /* Section header */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--purple);
+  }
+
+  .section-number {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .section-header h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--dark);
+    letter-spacing: -0.3px;
+  }
+
+  .section-header p {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Page title */
+  .page-title {
+    text-align: center;
+    padding: 48px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .page-title .badge {
+    display: inline-block;
+    background: var(--purple-bg);
+    color: var(--purple);
+    padding: 4px 14px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+
+  .page-title h2 {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--dark);
+    letter-spacing: -0.5px;
+  }
+
+  /* Tech stack table */
+  .tech-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    margin-bottom: 36px;
+  }
+
+  .tech-table th {
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    color: white;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .tech-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .tech-table tr:last-child td { border-bottom: none; }
+  .tech-table tr:nth-child(even) td { background: #f9f7ff; }
+
+  .tech-table .layer { font-weight: 600; color: var(--dark); }
+  .tech-table .tech {
+    color: var(--purple);
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+  }
+
+  /* Status badge */
+  .badge-done {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--green-bg);
+    color: var(--green);
+    padding: 2px 10px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .badge-new {
+    display: inline-flex;
+    align-items: center;
+    background: var(--purple-bg);
+    color: var(--purple);
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  /* Pages grid */
+  .pages-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+
+  .page-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    border-radius: 3px 0 0 3px;
+  }
+
+  .page-card.new-card::before {
+    background: linear-gradient(135deg, #059669, #10b981);
+  }
+
+  .page-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+
+  .page-card .route {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: var(--purple);
+    background: var(--purple-bg);
+    padding: 1px 6px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+
+  .page-card p {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* Component rows */
+  .component-list { margin-bottom: 36px; }
+
+  .component-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .component-row:last-child { border-bottom: none; }
+
+  .component-row:nth-child(even) { background: #fafafa; border-radius: 8px; }
+
+  .component-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(79,70,229,0.08));
+    border: 1px solid rgba(124,58,237,0.2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .component-info h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark);
+  }
+
+  .component-info .path {
+    font-family: 'Courier New', monospace;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    margin: 2px 0 4px;
+  }
+
+  .component-info p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* Feature highlight boxes */
+  .highlight-box {
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .highlight-box.purple { background: var(--purple-bg); border: 1px solid rgba(124,58,237,0.2); }
+  .highlight-box.green { background: var(--green-bg); border: 1px solid rgba(5,150,105,0.2); }
+  .highlight-box.blue { background: var(--blue-bg); border: 1px solid rgba(37,99,235,0.2); }
+  .highlight-box.amber { background: var(--amber-bg); border: 1px solid rgba(217,119,6,0.2); }
+
+  .highlight-box .emoji { font-size: 28px; flex-shrink: 0; }
+
+  .highlight-box h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .highlight-box.purple h4 { color: var(--purple); }
+  .highlight-box.green h4 { color: var(--green); }
+  .highlight-box.blue h4 { color: var(--blue); }
+  .highlight-box.amber h4 { color: var(--amber); }
+
+  .highlight-box ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .highlight-box ul li {
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 2px 0;
+    display: flex;
+    gap: 6px;
+  }
+
+  .highlight-box ul li::before { content: '→'; color: inherit; opacity: 0.6; }
+
+  /* Route table */
+  .route-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 36px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  .route-table th {
+    background: #1f2937;
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .route-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    vertical-align: middle;
+  }
+
+  .route-table tr:last-child td { border-bottom: none; }
+
+  .route-table .route-path {
+    font-family: 'Courier New', monospace;
+    font-size: 11.5px;
+    color: var(--purple);
+    background: var(--purple-bg);
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  /* Build result box */
+  .build-result {
+    background: #0f1117;
+    border-radius: 12px;
+    padding: 24px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    margin-bottom: 36px;
+  }
+
+  .build-result .prompt { color: #6b7280; }
+  .build-result .cmd { color: #a78bfa; }
+  .build-result .success { color: #6ee7b7; }
+  .build-result .info { color: #93c5fd; }
+  .build-result .warn { color: #fcd34d; }
+
+  /* Phase roadmap */
+  .phase-roadmap {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    margin-bottom: 36px;
+  }
+
+  .phase-roadmap::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 24px;
+    bottom: 24px;
+    width: 2px;
+    background: linear-gradient(to bottom, #7c3aed, #e5e7eb);
+  }
+
+  .phase-item {
+    display: flex;
+    gap: 20px;
+    padding: 16px 0;
+    position: relative;
+  }
+
+  .phase-dot {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .phase-dot.done { background: linear-gradient(135deg, #7c3aed, #4f46e5); color: white; }
+  .phase-dot.pending { background: white; border: 2px solid var(--border); color: var(--text-muted); }
+
+  .phase-info h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+    margin-top: 10px;
+  }
+
+  .phase-info p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .phase-info .status-done {
+    display: inline-block;
+    background: var(--green-bg);
+    color: var(--green);
+    padding: 2px 10px;
+    border-radius: 9999px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-left: 8px;
+  }
+
+  .phase-info .status-pending {
+    display: inline-block;
+    background: #f3f4f6;
+    color: #9ca3af;
+    padding: 2px 10px;
+    border-radius: 9999px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-left: 8px;
+  }
+
+  /* Files count grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+
+  .stat-box {
+    border-radius: 12px;
+    padding: 18px 14px;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+
+  .stat-box .num {
+    font-size: 28px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-box .lbl {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  /* Fix list */
+  .fix-list { margin-bottom: 36px; }
+
+  .fix-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #fafafa;
+    border: 1px solid #f0f0f0;
+    margin-bottom: 8px;
+  }
+
+  .fix-item .fix-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    background: white;
+    border: 1px solid var(--border);
+  }
+
+  .fix-item h5 {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 2px;
+  }
+
+  .fix-item p {
+    font-size: 11.5px;
+    color: var(--text-muted);
+  }
+
+  .fix-item code {
+    font-family: 'Courier New', monospace;
+    background: #f3f4f6;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 11px;
+  }
+
+  /* Page break */
+  .page-break { page-break-before: always; padding-top: 48px; }
+
+  /* Print settings */
+  @media print {
+    body { font-size: 12px; }
+    .cover { min-height: auto; padding: 80px 60px; }
+    .cover h1 { font-size: 44px; }
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 40px 0;
+  }
+
+  /* Callout */
+  .callout {
+    display: flex;
+    gap: 12px;
+    padding: 16px 18px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    border-left: 3px solid;
+  }
+
+  .callout.info { background: var(--blue-bg); border-color: var(--blue); }
+  .callout.success { background: var(--green-bg); border-color: var(--green); }
+  .callout.warning { background: var(--amber-bg); border-color: var(--amber); }
+
+  .callout .emoji { font-size: 18px; flex-shrink: 0; }
+
+  .callout p { font-size: 12.5px; line-height: 1.6; }
+  .callout.info p { color: #1e40af; }
+  .callout.success p { color: #065f46; }
+  .callout.warning p { color: #92400e; }
+
+  .callout strong { font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- COVER PAGE                                                 -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-content">
+    <div class="cover-logo">
+      <div class="cover-logo-icon">📸</div>
+      <div class="cover-logo-text">Event<span>Snap</span></div>
+    </div>
+
+    <div class="cover-badge">Phase 1 — Complete</div>
+
+    <h1>Work Done<br /><span>Summary Report</span></h1>
+    <p class="cover-subtitle">
+      A full-stack SaaS event gallery platform built with React 19 + TypeScript + Vite + Tailwind CSS + Supabase-ready architecture
+    </p>
+
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        <span class="val">11</span>
+        <span class="lbl">Pages Built</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="val">14</span>
+        <span class="lbl">Components</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="val">~6,500</span>
+        <span class="lbl">Lines of Code</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="val">0</span>
+        <span class="lbl">TypeScript Errors</span>
+      </div>
+    </div>
+  </div>
+  <div class="cover-date">Generated: September 18, 2026</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- PAGE 2 — PROJECT OVERVIEW                                  -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="content">
+  <div class="page-title">
+    <div class="badge">Project Overview</div>
+    <h2>What is EventSnap?</h2>
+  </div>
+
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <div>
+      <h2>Product Description</h2>
+      <p>The app you're building</p>
+    </div>
+  </div>
+
+  <div style="margin-bottom:28px; font-size:14px; line-height:1.8; color:#374151;">
+    <p style="margin-bottom:12px;">
+      <strong>EventSnap</strong> is a premium event media-sharing SaaS platform — like Google Photos, but purpose-built for events.
+      Photographers, event organizers, and their guests can all upload, share, and discover photos and videos from the same event in one beautiful gallery.
+    </p>
+    <p>
+      Think: <em>"No more 50 different WhatsApp groups after a wedding."</em> — One link, one QR code, one gallery where
+      everyone's photos live together. With AI-powered face matching so guests can find photos of themselves instantly.
+    </p>
+  </div>
+
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:36px;">
+    <div class="highlight-box purple">
+      <div class="emoji">🎯</div>
+      <div>
+        <h4>Target Users</h4>
+        <ul>
+          <li>Wedding photographers & planners</li>
+          <li>College event committees</li>
+          <li>Corporate event organizers</li>
+          <li>Birthday party hosts</li>
+          <li>School &amp; sports event coordinators</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box green">
+      <div class="emoji">💡</div>
+      <div>
+        <h4>Core Value Props</h4>
+        <ul>
+          <li>One gallery for all event photos</li>
+          <li>AI face matching (Find My Photos)</li>
+          <li>Collaborative uploads with approval</li>
+          <li>QR code sharing — no app needed</li>
+          <li>Privacy controls (public / private / password)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-header" style="margin-top:40px;">
+    <div class="section-number">02</div>
+    <div>
+      <h2>Technology Stack</h2>
+      <p>Every technology used in the project</p>
+    </div>
+  </div>
+
+  <table class="tech-table">
+    <thead>
+      <tr>
+        <th>Layer</th>
+        <th>Technology</th>
+        <th>Why This Choice</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="layer">Framework</td><td class="tech">React 19 + TypeScript + Vite 8</td><td>Latest React with full type safety and lightning-fast dev server</td></tr>
+      <tr><td class="layer">Styling</td><td class="tech">Tailwind CSS v4 + Custom CSS</td><td>Utility-first styling with a custom deep-dark design system</td></tr>
+      <tr><td class="layer">Routing</td><td class="tech">React Router v7</td><td>Client-side routing with protected route wrappers</td></tr>
+      <tr><td class="layer">Animations</td><td class="tech">Framer Motion v13</td><td>Production-grade animations — page transitions, micro-interactions</td></tr>
+      <tr><td class="layer">Icons</td><td class="tech">Lucide React v1.47</td><td>1,400+ consistent SVG icons, tree-shakeable</td></tr>
+      <tr><td class="layer">Backend</td><td class="tech">Supabase (PostgreSQL + RLS)</td><td>Auth + Database + Storage + Realtime in one BaaS</td></tr>
+      <tr><td class="layer">Auth</td><td class="tech">Supabase Auth (email + Google OAuth)</td><td>Ready-to-use auth with session persistence</td></tr>
+      <tr><td class="layer">File Storage</td><td class="tech">Supabase Storage</td><td>S3-compatible with signed URLs and RLS policies</td></tr>
+      <tr><td class="layer">QR Code</td><td class="tech">qrcode.react v4</td><td>Generate downloadable QR codes in the browser</td></tr>
+      <tr><td class="layer">Charts</td><td class="tech">Recharts v3</td><td>React-native charting for analytics dashboard</td></tr>
+      <tr><td class="layer">State</td><td class="tech">Zustand v5</td><td>Minimal, unopinionated global state management</td></tr>
+      <tr><td class="layer">Dates</td><td class="tech">date-fns v4</td><td>Lightweight, functional date formatting utilities</td></tr>
+      <tr><td class="layer">Toasts</td><td class="tech">react-hot-toast v2</td><td>Beautiful, accessible toast notifications</td></tr>
+      <tr><td class="layer">Drag &amp; Drop</td><td class="tech">react-dropzone v20</td><td>File upload drag-and-drop with MIME type validation</td></tr>
+      <tr><td class="layer">Fonts</td><td class="tech">Inter (Google Fonts)</td><td>The industry-standard SaaS typeface</td></tr>
+      <tr><td class="layer">Hosting</td><td class="tech">Vercel (planned)</td><td>Zero-config deployment with preview URLs</td></tr>
+    </tbody>
+  </table>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- PAGE 3 — ALL PAGES BUILT                                   -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="content page-break">
+  <div class="page-title">
+    <div class="badge">Frontend</div>
+    <h2>All Pages Built</h2>
+  </div>
+
+  <div class="section-header">
+    <div class="section-number">03</div>
+    <div>
+      <h2>Pages &amp; Routes</h2>
+      <p>Every screen the user can visit</p>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-box"><span class="num">11</span><span class="lbl">Total Pages</span></div>
+    <div class="stat-box"><span class="num">13</span><span class="lbl">Total Routes</span></div>
+    <div class="stat-box"><span class="num">3</span><span class="lbl">Protected Routes</span></div>
+    <div class="stat-box"><span class="num">2</span><span class="lbl">Guest-Only Routes</span></div>
+  </div>
+
+  <table class="route-table">
+    <thead>
+      <tr>
+        <th>Page</th>
+        <th>Route</th>
+        <th>Access</th>
+        <th>Key Features</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Landing Page</strong></td>
+        <td><span class="route-path">/</span></td>
+        <td>Public</td>
+        <td>Hero with photo rotator, features, occasions, how-it-works, trust section, CTA</td>
+      </tr>
+      <tr>
+        <td><strong>Login</strong></td>
+        <td><span class="route-path">/login</span></td>
+        <td>Guest only</td>
+        <td>Email/password form, Google OAuth button, demo credentials hint, redirect after login</td>
+      </tr>
+      <tr>
+        <td><strong>Sign Up</strong></td>
+        <td><span class="route-path">/signup</span></td>
+        <td>Guest only</td>
+        <td>Registration with password strength indicator (3 rules), Google signup</td>
+      </tr>
+      <tr>
+        <td><strong>Forgot Password</strong></td>
+        <td><span class="route-path">/forgot-password</span></td>
+        <td>Public</td>
+        <td>Email input, simulated email send, success state</td>
+      </tr>
+      <tr>
+        <td><strong>Dashboard</strong></td>
+        <td><span class="route-path">/dashboard</span></td>
+        <td>Protected</td>
+        <td>Stats overview, My Events grid, Joined Events, search + filter + sort, quick actions</td>
+      </tr>
+      <tr>
+        <td><strong>Create Event</strong></td>
+        <td><span class="route-path">/create-event</span></td>
+        <td>Protected</td>
+        <td>3-step wizard: Basics (title, type, date, location, cover), Privacy, Collaboration settings</td>
+      </tr>
+      <tr>
+        <td><strong>Event Gallery</strong></td>
+        <td><span class="route-path">/event/:id</span></td>
+        <td>Public/Private</td>
+        <td>Cover header, stats bar, 5 tabs (Gallery, Albums, Upload, Contributors, Analytics)</td>
+      </tr>
+      <tr>
+        <td><strong>Event Settings</strong> <span class="badge-new">NEW</span></td>
+        <td><span class="route-path">/event/:id/settings</span></td>
+        <td>Owner only</td>
+        <td>4-tab settings panel: General, Privacy &amp; Access, Sharing, Danger Zone</td>
+      </tr>
+      <tr>
+        <td><strong>Download Center</strong> <span class="badge-new">NEW</span></td>
+        <td><span class="route-path">/event/:id/downloads</span></td>
+        <td>Public</td>
+        <td>Multi-select grid, album grouping, photo/video filter, batch download, mobile sticky bar</td>
+      </tr>
+      <tr>
+        <td><strong>Find My Photos</strong></td>
+        <td><span class="route-path">/event/:id/find-my-photos</span></td>
+        <td>Public</td>
+        <td>Selfie upload, consent checkbox, AI processing animation, match results with confidence %</td>
+      </tr>
+      <tr>
+        <td><strong>Not Found</strong></td>
+        <td><span class="route-path">*</span></td>
+        <td>Public</td>
+        <td>Branded 404 page with navigation back to home</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout info">
+    <span class="emoji">ℹ️</span>
+    <p>All pages use <strong>mock data</strong> from <code>src/lib/mock-data.ts</code> — real Supabase data will replace this in Phase 2. The UX is 100% functional with simulated API calls.</p>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- PAGE 4 — COMPONENTS                                        -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="content page-break">
+  <div class="page-title">
+    <div class="badge">Components</div>
+    <h2>All Components Built</h2>
+  </div>
+
+  <div class="section-header">
+    <div class="section-number">04</div>
+    <div>
+      <h2>Reusable Components</h2>
+      <p>Every component file in src/components/</p>
+    </div>
+  </div>
+
+  <div style="border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:36px;">
+    <!-- Layout -->
+    <div style="background:#f8f7ff; padding:10px 16px; border-bottom:1px solid var(--border);">
+      <span style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--purple);">📐 Layout Components</span>
+    </div>
+
+    <div class="component-row">
+      <div class="component-icon">🧭</div>
+      <div class="component-info">
+        <h4>Navbar.tsx</h4>
+        <div class="path">src/components/layout/Navbar.tsx — 11.5 KB</div>
+        <p>Responsive top navigation with auth state (show login/signup for guests, avatar+menu for users). Mobile hamburger menu. Transparent on landing, glass on inner pages. Notification badge. Active route highlighting.</p>
+      </div>
+    </div>
+
+    <div class="component-row">
+      <div class="component-icon">🦶</div>
+      <div class="component-info">
+        <h4>Footer.tsx</h4>
+        <div class="path">src/components/layout/Footer.tsx — 3.5 KB</div>
+        <p>Marketing footer with logo, 4 link columns (Product, Platform, Company, Legal), social icons, copyright.</p>
+      </div>
+    </div>
+
+    <!-- Gallery -->
+    <div style="background:#f8f7ff; padding:10px 16px; border-bottom:1px solid var(--border); border-top:1px solid var(--border);">
+      <span style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--purple);">🖼️ Gallery Components</span>
+    </div>
+
+    <div class="component-row">
+      <div class="component-icon">📷</div>
+      <div class="component-info">
+        <h4>MediaGrid.tsx</h4>
+        <div class="path">src/components/gallery/MediaGrid.tsx — 7.8 KB</div>
+        <p>Main gallery grid with masonry and uniform grid layouts. Search bar, album filter dropdown, photo/video type toggle, sort (newest/oldest/popular). Loading skeletons. Empty state. Opens Lightbox on click.</p>
+      </div>
+    </div>
+
+    <div class="component-row">
+      <div class="component-icon">🃏</div>
+      <div class="component-info">
+        <h4>MediaCard.tsx</h4>
+        <div class="path">src/components/gallery/MediaCard.tsx — 5.6 KB</div>
+        <p>Individual photo/video card with hover overlay showing favorite count, download count, uploader avatar. Video badge. Favorite button. Download button. Delete button (for owners).</p>
+      </div>
+    </div>
+
+    <div class="component-row">
+      <div class="component-icon">🔍</div>
+      <div class="component-info">
+        <h4>Lightbox.tsx</h4>
+        <div class="path">src/components/gallery/Lightbox.tsx — 10.4 KB</div>
+        <p>Full-screen media viewer. Prev/next navigation. Keyboard shortcuts (arrow keys, Escape). Zoom toggle. Favorite toggle. Share (Web Share API or clipboard copy). Download. Info panel slide-in (filename, size, dimensions, uploader). Thumbnail strip at bottom. Prevents body scroll.</p>
+      </div>
+    </div>
+
+    <div class="component-row" style="background:#ecfdf5;">
+      <div class="component-icon">🎥</div>
+      <div class="component-info">
+        <h4>VideoPlayer.tsx <span class="badge-new">NEW</span></h4>
+        <div class="path">src/components/gallery/VideoPlayer.tsx — 6.5 KB</div>
+        <p>Full-featured HTML5 video player. Play/pause toggle. Progress bar with scrubbing. Mute/unmute. Fullscreen. Auto-hiding controls (2.5s after last interaction). Big play button overlay. Restart on ended. Time display (current/total).</p>
+      </div>
+    </div>
+
+    <!-- Upload -->
+    <div style="background:#f8f7ff; padding:10px 16px; border-bottom:1px solid var(--border); border-top:1px solid var(--border);">
+      <span style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--purple);">⬆️ Upload Components</span>
+    </div>
+
+    <div class="component-row">
+      <div class="component-icon">📂</div>
+      <div class="component-info">
+        <h4>UploadZone.tsx</h4>
+        <div class="path">src/components/upload/UploadZone.tsx — 10.9 KB</div>
+        <p>Drag-and-drop upload area with react-dropzone. Album selector. File type validation (images + videos). Size validation (50MB images, 500MB videos). Preview thumbnails for selected files. Progress simulation. Caption support.</p>
+      </div>
+    </div>
+
+    <div class="component-row" style="background:#ecfdf5;">
+      <div class="component-icon">📋</div>
+      <div class="component-info">
+        <h4>UploadQueue.tsx <span class="badge-new">NEW</span></h4>
+        <div class="path">src/components/upload/UploadQueue.tsx — 7.4 KB</div>
+        <p>Animated file upload queue. Per-file status (waiting, uploading, processing, done, failed, cancelled). Progress bars with Framer Motion. Summary header showing active/done/failed counts. Overall progress bar. Retry button for failed files. Remove individual files. Clear all completed.</p>
+      </div>
+    </div>
+
+    <!-- Events -->
+    <div style="background:#f8f7ff; padding:10px 16px; border-bottom:1px solid var(--border); border-top:1px solid var(--border);">
+      <span style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--purple);">📅 Event Components</span>
+    </div>
+
+    <div class="component-row">
+      <div class="component-icon">📱</div>
+      <div class="component-info">
+        <h4>QRSharePanel.tsx</h4>
+        <div class="path">src/components/events/QRSharePanel.tsx — 6.0 KB</div>
+        <p>Full-screen QR code share panel. Generates QR code for event URL. Copy link button. Download QR as PNG. Native Share API support. Privacy badge overlay.</p>
+      </div>
+    </div>
+
+    <div class="component-row">
+      <div class="component-icon">🤝</div>
+      <div class="component-info">
+        <h4>ContributorRequestModal.tsx</h4>
+        <div class="path">src/components/events/ContributorRequestModal.tsx — 6.3 KB</div>
+        <p>Modal for guests to request upload access. Optional message field. Album selector (contribute to specific album). Submit with loading state. Success confirmation view.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- PAGE 5 — CORE FILES & DATA                                 -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="content page-break">
+  <div class="page-title">
+    <div class="badge">Core Architecture</div>
+    <h2>Data, Types &amp; Infrastructure</h2>
+  </div>
+
+  <div class="section-header">
+    <div class="section-number">05</div>
+    <div>
+      <h2>Types System</h2>
+      <p>src/types/index.ts — All TypeScript interfaces (8.1 KB, 252 lines)</p>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-bottom:36px;">
+    <div style="border:1px solid var(--border); border-radius:10px; padding:14px;">
+      <div style="font-size:18px; margin-bottom:8px;">👤</div>
+      <div style="font-size:12px; font-weight:700; color:var(--dark); margin-bottom:4px;">User</div>
+      <div style="font-size:11px; color:var(--text-muted);">id, name, email, avatar_url, timestamps</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:10px; padding:14px;">
+      <div style="font-size:18px; margin-bottom:8px;">📅</div>
+      <div style="font-size:12px; font-weight:700; color:var(--dark); margin-bottom:4px;">Event</div>
+      <div style="font-size:11px; color:var(--text-muted);">Full event with privacy, counts, role, expiry</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:10px; padding:14px;">
+      <div style="font-size:18px; margin-bottom:8px;">📁</div>
+      <div style="font-size:12px; font-weight:700; color:var(--dark); margin-bottom:4px;">Album</div>
+      <div style="font-size:11px; color:var(--text-muted);">Visibility levels, cover, media count, sort order</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:10px; padding:14px;">
+      <div style="font-size:18px; margin-bottom:8px;">🖼️</div>
+      <div style="font-size:12px; font-weight:700; color:var(--dark); margin-bottom:4px;">Media</div>
+      <div style="font-size:11px; color:var(--text-muted);">Photo/video with 3 URL sizes, processing status</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:10px; padding:14px;">
+      <div style="font-size:18px; margin-bottom:8px;">📤</div>
+      <div style="font-size:12px; font-weight:700; color:var(--dark); margin-bottom:4px;">UploadRequest</div>
+      <div style="font-size:11px; color:var(--text-muted);">Pending/approved/rejected with album scope</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:10px; padding:14px;">
+      <div style="font-size:18px; margin-bottom:8px;">🔔</div>
+      <div style="font-size:12px; font-weight:700; color:var(--dark); margin-bottom:4px;">Notification</div>
+      <div style="font-size:11px; color:var(--text-muted);">9 notification types with read status</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:10px; padding:14px;">
+      <div style="font-size:18px; margin-bottom:8px;">🤖</div>
+      <div style="font-size:12px; font-weight:700; color:var(--dark); margin-bottom:4px;">MatchingSession</div>
+      <div style="font-size:11px; color:var(--text-muted);">AI face matching with results + confidence</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:10px; padding:14px;">
+      <div style="font-size:18px; margin-bottom:8px;">📊</div>
+      <div style="font-size:12px; font-weight:700; color:var(--dark); margin-bottom:4px;">EventAnalytics</div>
+      <div style="font-size:11px; color:var(--text-muted);">Views, downloads, upload activity, top albums</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:10px; padding:14px;">
+      <div style="font-size:18px; margin-bottom:8px;">⬆️</div>
+      <div style="font-size:12px; font-weight:700; color:var(--dark); margin-bottom:4px;">UploadQueueItem</div>
+      <div style="font-size:11px; color:var(--text-muted);">Progress, status, preview, error, album target</div>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-number">06</div>
+    <div>
+      <h2>Mock Data</h2>
+      <p>src/lib/mock-data.ts — Complete realistic test fixtures (21.8 KB, 438 lines)</p>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:36px;">
+    <div class="highlight-box blue">
+      <div class="emoji">👥</div>
+      <div>
+        <h4>Mock Users (5)</h4>
+        <ul>
+          <li>Arjun Sharma (owner) — arjun@example.com</li>
+          <li>Priya Mehta (contributor)</li>
+          <li>Rahul Verma, Sneha Kapoor, Vikram Singh</li>
+          <li>DiceBear avatars with unique seeds</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box purple">
+      <div class="emoji">📅</div>
+      <div>
+        <h4>Mock Events (4)</h4>
+        <ul>
+          <li>Karan &amp; Riya Wedding (owner, unlisted)</li>
+          <li>TSDC Annual Fest 2026 (owner, public)</li>
+          <li>Priya's 25th Birthday (contributor, private)</li>
+          <li>TechCorp Summit (guest, private)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box green">
+      <div class="emoji">🖼️</div>
+      <div>
+        <h4>Mock Media (31 photos)</h4>
+        <ul>
+          <li>16 wedding photos across 5 albums</li>
+          <li>15 college event photos across 7 albums</li>
+          <li>Real Unsplash URLs (800px + 400px thumbs)</li>
+          <li>Realistic file sizes &amp; dimensions</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box amber">
+      <div class="emoji">📋</div>
+      <div>
+        <h4>Other Fixtures</h4>
+        <ul>
+          <li>3 upload requests (1 pending, 1 approved, 1 pending)</li>
+          <li>3 notifications (2 unread, 1 read)</li>
+          <li>5 event members with roles</li>
+          <li>5 face match results with confidence %</li>
+          <li>Analytics with 7-day upload activity</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-number">07</div>
+    <div>
+      <h2>Utility Functions</h2>
+      <p>src/lib/utils.ts — All helper functions (8.5 KB, 222 lines)</p>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-bottom:36px; font-size:12px;">
+    <div style="border:1px solid var(--border); border-radius:8px; padding:12px;">
+      <div style="font-weight:700; color:var(--dark); margin-bottom:6px;">📅 Date Helpers</div>
+      <div style="color:var(--text-muted); line-height:1.7;">formatDate()<br/>formatDateLong()<br/>formatRelativeTime()<br/>formatDateTime()</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:8px; padding:12px;">
+      <div style="font-weight:700; color:var(--dark); margin-bottom:6px;">💾 File Helpers</div>
+      <div style="color:var(--text-muted); line-height:1.7;">formatFileSize()<br/>formatStorageUsed()<br/>validateMediaFile()<br/>isVideoFile()</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:8px; padding:12px;">
+      <div style="font-weight:700; color:var(--dark); margin-bottom:6px;">🎨 UI Helpers</div>
+      <div style="color:var(--text-muted); line-height:1.7;">getEventTypeColor()<br/>getEventTypeEmoji()<br/>getPrivacyLabel()<br/>getPrivacyBadge()</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:8px; padding:12px;">
+      <div style="font-weight:700; color:var(--dark); margin-bottom:6px;">🔤 String Helpers</div>
+      <div style="color:var(--text-muted); line-height:1.7;">truncate()<br/>getInitials()<br/>slugify()<br/>generateId()</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:8px; padding:12px;">
+      <div style="font-weight:700; color:var(--dark); margin-bottom:6px;">🌐 URL Helpers</div>
+      <div style="color:var(--text-muted); line-height:1.7;">buildEventUrl()<br/>buildEventShareUrl()<br/>copyToClipboard()<br/>cn() (tailwind merge)</div>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:8px; padding:12px;">
+      <div style="font-weight:700; color:var(--dark); margin-bottom:6px;">⚡ Async Helpers</div>
+      <div style="color:var(--text-muted); line-height:1.7;">delay()<br/>formatNumber()<br/>formatDuration()<br/>getRequestStatusColor()</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- PAGE 6 — DESIGN SYSTEM                                     -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="content page-break">
+  <div class="page-title">
+    <div class="badge">Design System</div>
+    <h2>Visual Language &amp; CSS Architecture</h2>
+  </div>
+
+  <div class="section-header">
+    <div class="section-number">08</div>
+    <div>
+      <h2>Design System</h2>
+      <p>src/index.css — Custom design tokens and utility classes (7.5 KB, 340 lines)</p>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:28px;">
+
+    <div style="border:1px solid var(--border); border-radius:12px; overflow:hidden;">
+      <div style="background:#0a0814; padding:12px 16px;">
+        <span style="font-size:11px; font-weight:700; color:#a78bfa; text-transform:uppercase; letter-spacing:0.08em;">🎨 Color Palette</span>
+      </div>
+      <div style="padding:14px 16px; font-size:12px; line-height:1.9; font-family:'Courier New', monospace;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <div style="width:16px; height:16px; background:#7c3aed; border-radius:3px;"></div>
+          <span>brand-600: #7c3aed (primary)</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <div style="width:16px; height:16px; background:#a78bfa; border-radius:3px;"></div>
+          <span>brand-400: #a78bfa (light)</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <div style="width:16px; height:16px; background:#0a0814; border-radius:3px; border:1px solid #333;"></div>
+          <span>surface-950: #0a0814 (body bg)</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <div style="width:16px; height:16px; background:#151228; border-radius:3px;"></div>
+          <span>surface-800: #151228 (card bg)</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <div style="width:16px; height:16px; background:#312d4e; border-radius:3px;"></div>
+          <span>surface-500: #312d4e (borders)</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="border:1px solid var(--border); border-radius:12px; overflow:hidden;">
+      <div style="background:#0a0814; padding:12px 16px;">
+        <span style="font-size:11px; font-weight:700; color:#a78bfa; text-transform:uppercase; letter-spacing:0.08em;">✨ Utility Classes</span>
+      </div>
+      <div style="padding:14px 16px; font-size:12px; line-height:1.9; color:var(--text-muted);">
+        <div><code style="background:#f3f4f6; padding:1px 5px; border-radius:3px;">.glass</code> — backdrop blur card</div>
+        <div><code style="background:#f3f4f6; padding:1px 5px; border-radius:3px;">.glass-light</code> — subtle glass surface</div>
+        <div><code style="background:#f3f4f6; padding:1px 5px; border-radius:3px;">.card</code> — dark bordered card</div>
+        <div><code style="background:#f3f4f6; padding:1px 5px; border-radius:3px;">.card-hover</code> — lift on hover</div>
+        <div><code style="background:#f3f4f6; padding:1px 5px; border-radius:3px;">.btn-primary/secondary/ghost</code></div>
+        <div><code style="background:#f3f4f6; padding:1px 5px; border-radius:3px;">.input-field</code> — dark form input</div>
+        <div><code style="background:#f3f4f6; padding:1px 5px; border-radius:3px;">.badge-purple/green/amber/red/blue</code></div>
+        <div><code style="background:#f3f4f6; padding:1px 5px; border-radius:3px;">.gradient-text/brand/brand-subtle</code></div>
+        <div><code style="background:#f3f4f6; padding:1px 5px; border-radius:3px;">.skeleton</code> — animated loading</div>
+        <div><code style="background:#f3f4f6; padding:1px 5px; border-radius:3px;">.masonry-grid/item</code> — CSS columns</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout success">
+    <span class="emoji">🎨</span>
+    <p>The design is a <strong>deep dark glassmorphism aesthetic</strong> — deep purple-black background (#0a0814), purple brand color (#7c3aed), Inter typeface, backdrop-blur glass cards, gradient text, smooth animations via Framer Motion. This is a production-quality premium SaaS design — not a default template.</p>
+  </div>
+
+  <div class="section-header" style="margin-top:40px;">
+    <div class="section-number">09</div>
+    <div>
+      <h2>Auth System</h2>
+      <p>src/features/auth/ — Context + Route Guards</p>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:36px;">
+    <div style="border:1px solid var(--border); border-radius:12px; padding:16px;">
+      <h4 style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:8px;">AuthContext.tsx (3.6 KB)</h4>
+      <ul style="font-size:12px; color:var(--text-muted); line-height:1.8; list-style:none; padding:0;">
+        <li>→ React Context with useAuth hook</li>
+        <li>→ login(email, password) — simulated</li>
+        <li>→ signup(name, email, password) — simulated</li>
+        <li>→ loginWithGoogle() — simulated</li>
+        <li>→ logout() — clears state</li>
+        <li>→ user object with name, email, avatar</li>
+        <li>→ isLoading state for all async ops</li>
+        <li>→ Ready to swap with Supabase Auth in Phase 2</li>
+      </ul>
+    </div>
+    <div style="border:1px solid var(--border); border-radius:12px; padding:16px;">
+      <h4 style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:8px;">ProtectedRoute.tsx (1.4 KB)</h4>
+      <ul style="font-size:12px; color:var(--text-muted); line-height:1.8; list-style:none; padding:0;">
+        <li>→ &lt;ProtectedRoute&gt; — redirect to /login if not authed</li>
+        <li>→ &lt;GuestRoute&gt; — redirect to /dashboard if already authed</li>
+        <li>→ Preserves original URL for post-login redirect</li>
+        <li>→ Wraps any child component</li>
+        <li>→ Loading spinner while auth state resolves</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- PAGE 7 — BUILD VERIFICATION & ROADMAP                      -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="content page-break">
+  <div class="page-title">
+    <div class="badge">Verification &amp; Roadmap</div>
+    <h2>Build Results &amp; What's Next</h2>
+  </div>
+
+  <div class="section-header">
+    <div class="section-number">10</div>
+    <div>
+      <h2>Build Verification</h2>
+      <p>npm run build — TypeScript + Vite production build</p>
+    </div>
+  </div>
+
+  <div class="build-result">
+    <div><span class="prompt">$</span> <span class="cmd">npm run build</span></div>
+    <div><span class="prompt">></span> <span class="info">tsc -b && vite build</span></div>
+    <br/>
+    <div><span class="success">✓</span> <span style="color:#e5e7eb;">TypeScript: 0 errors, 0 warnings</span></div>
+    <div><span class="success">✓</span> <span style="color:#e5e7eb;">2627 modules transformed</span></div>
+    <br/>
+    <div style="color:#6b7280;">dist/index.html                   1.46 kB │ gzip:  0.63 kB</div>
+    <div style="color:#6b7280;">dist/assets/index-Dw62Hel3.css   67.31 kB │ gzip: 11.26 kB</div>
+    <div style="color:#6b7280;">dist/assets/index-B7cnF0ns.js   661.95 kB │ gzip: 196.46 kB</div>
+    <br/>
+    <div><span class="success">✓</span> <span style="color:#e5e7eb;">built in 2.04s</span></div>
+    <br/>
+    <div><span class="prompt">$</span> <span class="cmd">npm run dev</span></div>
+    <div><span class="success">➜</span> <span style="color:#e5e7eb;">Local: http://localhost:5173/</span></div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-number">11</div>
+    <div>
+      <h2>Bug Fixes Applied</h2>
+      <p>TypeScript errors fixed during the build</p>
+    </div>
+  </div>
+
+  <div class="fix-list">
+    <div class="fix-item">
+      <div class="fix-icon">🔧</div>
+      <div>
+        <h5>Lucide React Icon Names (v1.x)</h5>
+        <p>lucide-react v1.47 removed <code>Twitter</code>, <code>Instagram</code>, <code>Linkedin</code>, <code>Github</code>, <code>Chrome</code>. Replaced with valid icons: <code>MessageCircle</code>, <code>Globe2</code>, <code>Briefcase</code>, <code>Code2</code>.</p>
+      </div>
+    </div>
+    <div class="fix-item">
+      <div class="fix-icon">📋</div>
+      <div>
+        <h5>tsconfig.json — TypeScript 6.0 Deprecations</h5>
+        <p>Added <code>"ignoreDeprecations": "6.0"</code> to silence the <code>baseUrl</code> deprecation warning that was blocking builds. Added <code>"types": ["vite/client"]</code> so <code>import.meta.env</code> and CSS imports type-check correctly.</p>
+      </div>
+    </div>
+    <div class="fix-item">
+      <div class="fix-icon">⏱️</div>
+      <div>
+        <h5>VideoPlayer.tsx — useRef Type</h5>
+        <p>Fixed <code>useRef&lt;ReturnType&lt;typeof setTimeout&gt;&gt;()</code> → <code>useRef&lt;ReturnType&lt;typeof setTimeout&gt; | undefined&gt;(undefined)</code> to match TS strict mode requirements for ref initialization.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-header" style="margin-top:40px;">
+    <div class="section-number">12</div>
+    <div>
+      <h2>6-Phase Roadmap</h2>
+      <p>What's done and what comes next</p>
+    </div>
+  </div>
+
+  <div class="phase-roadmap">
+    <div class="phase-item">
+      <div class="phase-dot done">1</div>
+      <div class="phase-info">
+        <h4>Phase 1 — UI Foundation <span class="status-done">✅ COMPLETE</span></h4>
+        <p>All 11 pages, 14 components, design system, mock data, auth context, protected routes. Zero TypeScript errors. Production build passing. Dev server running.</p>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot pending">2</div>
+      <div class="phase-info">
+        <h4>Phase 2 — Supabase Backend <span class="status-pending">NEXT</span></h4>
+        <p>SQL migrations (11 tables), RLS policies, Storage buckets, Supabase Auth (email + Google OAuth), real login/signup, protected media with signed URLs. Replace all mock data.</p>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot pending">3</div>
+      <div class="phase-info">
+        <h4>Phase 3 — Collaboration <span class="status-pending">PENDING</span></h4>
+        <p>Real upload requests, admin approval/rejection, Supabase Realtime for live notifications, album-scoped permissions, access expiry.</p>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot pending">4</div>
+      <div class="phase-info">
+        <h4>Phase 4 — Performance &amp; Downloads <span class="status-pending">PENDING</span></h4>
+        <p>Server-side ZIP download via Edge Functions, thumbnail generation, infinite scroll with virtualization, CDN optimization.</p>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot pending">5</div>
+      <div class="phase-info">
+        <h4>Phase 5 — Find My Photos (Real AI) <span class="status-pending">PENDING</span></h4>
+        <p>Plug in real face embedding API (AWS Rekognition / Google Vision / custom model), session management, GDPR-compliant data deletion.</p>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot pending">6</div>
+      <div class="phase-info">
+        <h4>Phase 6 — Polish &amp; Deploy <span class="status-pending">PENDING</span></h4>
+        <p>Error boundaries, loading skeletons everywhere, mobile testing, accessibility audit, Vercel deployment, custom domain.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="callout success">
+    <span class="emoji">🚀</span>
+    <p><strong>To start Phase 2:</strong> Create a Supabase project at supabase.com, copy your project URL and anon key into <code>.env</code> (see <code>.env.example</code>), and we'll build the SQL schema, RLS policies, and storage buckets together.</p>
+  </div>
+
+  <div style="text-align:center; margin-top:48px; padding-top:32px; border-top:1px solid var(--border);">
+    <div style="font-size:28px; margin-bottom:12px;">📸</div>
+    <p style="font-size:13px; color:var(--text-muted);">EventSnap Phase 1 — Generated September 18, 2026</p>
+    <p style="font-size:12px; color:#9ca3af; margin-top:4px;">Built with React 19 + TypeScript + Vite + Tailwind CSS + Framer Motion</p>
+  </div>
+
+</div>
+
+</body>
+</html>
