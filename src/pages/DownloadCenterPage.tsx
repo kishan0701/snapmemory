@@ -7,7 +7,7 @@ import {
   Image as ImageIcon, Video, FileDown, Info
 } from 'lucide-react';
 import { Navbar } from '@/components/layout/Navbar';
-import { getEventById, getMediaForEvent, getAlbumsForEvent } from '@/lib/mock-data';
+import { useEventStore } from '@/store/eventStore';
 import { formatFileSize } from '@/lib/utils';
 import type { Media } from '@/types';
 import toast from 'react-hot-toast';
@@ -17,9 +17,13 @@ type GroupBy = 'album' | 'none';
 
 export function DownloadCenterPage() {
   const { id } = useParams<{ id: string }>();
+  const getEventById = useEventStore((s) => s.getEventById);
+  const getEventMedia = useEventStore((s) => s.getEventMedia);
+  const getEventAlbums = useEventStore((s) => s.getEventAlbums);
+
   const event = getEventById(id ?? '');
-  const media = getMediaForEvent(id ?? '');
-  const albums = getAlbumsForEvent(id ?? '');
+  const media = getEventMedia(id ?? '', false);
+  const albums = getEventAlbums(id ?? '');
 
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [filterType, setFilterType] = useState<FilterType>('all');

@@ -112,7 +112,13 @@ export function SmartDatePicker({
   }, [open, calcPos]);
 
   useEffect(() => {
-    if (parsedValue) { setViewYear(parsedValue.year); setViewMonth(parsedValue.month); }
+    if (value) {
+      const [y, m] = value.split('-').map(Number);
+      if (!isNaN(y) && !isNaN(m)) {
+        setViewYear(y);
+        setViewMonth(m - 1);
+      }
+    }
   }, [value]);
 
   const isDisabled = useCallback((y: number, m: number, d: number) => {

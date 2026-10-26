@@ -86,7 +86,7 @@ function EventCard({ event }: { event: Event }) {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-2 mb-4">
           <div className="text-center p-2 glass-light rounded-lg">
-            <p className="text-base font-bold text-white">{event.photo_count}</p>
+            <p className="text-base font-bold text-white">{event.photo_count ?? 0}</p>
             <p className="text-[10px] text-muted flex items-center justify-center gap-0.5">
               <Images className="w-2.5 h-2.5" /> Photos
             </p>

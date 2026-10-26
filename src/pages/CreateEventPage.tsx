@@ -10,6 +10,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { SmartDatePicker } from '@/components/ui/SmartDatePicker';
 import { CoverImageSelector, CATEGORIZED_PRESETS } from '@/components/events/CoverImageSelector';
 import { useEventStore } from '@/lib/eventStore';
+import { useAuth } from '@/features/auth/AuthContext';
 import type { EventType, EventPrivacy } from '@/types';
 import toast from 'react-hot-toast';
 
@@ -67,6 +68,7 @@ const DEFAULT_FORM: EventForm = {
 
 export function CreateEventPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<EventForm>(DEFAULT_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -110,9 +112,8 @@ export function CreateEventPage() {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    // Simulate network latency (replace with real Supabase call later)
-    await new Promise(r => setTimeout(r, 1200));
-    // Create event in store → gets a fresh unique ID with zero media
+    await new Promise(r => setTimeout(r, 600));
+    // Create event in store with logged-in user ID
     const newId = createEvent({
       title: form.title,
       type: form.type,
@@ -126,6 +127,7 @@ export function CreateEventPage() {
       allow_downloads: form.allow_downloads,
       enable_find_my_photos: form.enable_find_my_photos,
       expiry_at: form.expiry_at,
+      owner_id: user?.id || 'user-1',
     });
     toast.success('Event created! Start uploading your photos 🎉');
     setIsSubmitting(false);

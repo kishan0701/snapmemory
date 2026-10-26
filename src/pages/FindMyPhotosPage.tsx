@@ -7,14 +7,14 @@ import {
   Cpu, ScanFace, ImageOff, Zap,
 } from 'lucide-react';
 import { Navbar } from '@/components/layout/Navbar';
-import { getEventById, getMediaForEvent } from '@/lib/mock-data';
+import { useEventStore } from '@/store/eventStore';
 import { Lightbox } from '@/components/gallery/Lightbox';
 import {
   loadModels,
   detectFaceDescriptor,
   matchPhotosAgainstFace,
   type FaceMatchResult,
-} from '@/lib/face-matcher';
+} from '@/services/faceMatcher';
 import type { Media } from '@/types';
 import toast from 'react-hot-toast';
 
@@ -31,6 +31,10 @@ interface ScanProgress {
 // ─── Component ────────────────────────────────────────────────────────────────
 export function FindMyPhotosPage() {
   const { id } = useParams<{ id: string }>();
+  const getEventById = useEventStore((s) => s.getEventById);
+  const getEventMedia = useEventStore((s) => s.getEventMedia);
+  const updateMediaFaceDescriptors = useEventStore((s) => s.updateMediaFaceDescriptors);
+
   const event = getEventById(id ?? 'evt-1');
 
   const [state, setState] = useState<FlowState>('intro');
@@ -51,14 +55,16 @@ export function FindMyPhotosPage() {
     loadModels().catch(() => {}); // silent pre-warm
   }, []);
 
-  // Get all photos for this event
-  const eventPhotos = getMediaForEvent(id ?? 'evt-1')
+  // Get all approved photos for this event
+  const rawMedia = getEventMedia(id ?? 'evt-1', false);
+  const eventPhotos = rawMedia
     .filter(m => m.type === 'photo')
     .map(m => ({
       id: m.id,
       url: m.original_url ?? m.preview_url,
       thumbnailUrl: m.thumbnail_url ?? m.preview_url ?? m.original_url ?? '',
       filename: m.filename,
+      face_descriptors: m.face_descriptors,
     }));
 
   const handleFileSelect = (file: File) => {
@@ -88,7 +94,7 @@ export function FindMyPhotosPage() {
         return;
       }
 
-      // 3. Scan event photos
+      // 3. Scan event photos (uses pre-computed descriptors if available for instant matching!)
       setProgress(p => ({ ...p, total: eventPhotos.length, modelStep: 'Scanning event photos…' }));
       const matches = await matchPhotosAgainstFace(
         descriptor,
@@ -96,6 +102,8 @@ export function FindMyPhotosPage() {
         (scanned, total, currentFile) => {
           setProgress(p => ({ ...p, scanned, total, currentFile }));
         },
+        0.52,
+        (mediaId, desc) => updateMediaFaceDescriptors(mediaId, desc)
       );
 
       setResults(matches);
@@ -115,7 +123,11 @@ export function FindMyPhotosPage() {
   const toggleSelect = (id: string) => {
     setSelected(prev => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
       return next;
     });
   };

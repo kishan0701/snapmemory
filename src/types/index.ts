@@ -108,6 +108,12 @@ export interface Media {
   is_favorited?: boolean;
   favorite_count?: number;
   download_count?: number;
+  approval_status?: 'pending' | 'approved' | 'rejected';
+  face_descriptors?: number[][];
+  is_approved?: boolean;
+  uploader_name?: string;
+  uploader_email?: string;
+  is_creator_upload?: boolean;
 }
 
 // ─── Upload Requests ──────────────────────────────────────────────────────────

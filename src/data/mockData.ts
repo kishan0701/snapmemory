@@ -92,11 +92,8 @@ const COLLEGE_PHOTOS = [
   'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&q=80',
   'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80',
 ];
-
-const THUMBNAIL_SUFFIX = '&w=400&q=70';
-
 function makeThumb(url: string): string {
-  return url.replace('?w=800&q=80', `?w=400&q=70`);
+  return url.replace('?w=800&q=80', '?w=400&q=70');
 }
 
 // ─── Mock Albums ──────────────────────────────────────────────────────────────

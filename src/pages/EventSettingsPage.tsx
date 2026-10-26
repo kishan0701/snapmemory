@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { Navbar } from '@/components/layout/Navbar';
 import { SmartDatePicker } from '@/components/ui/SmartDatePicker';
-import { getEventById } from '@/lib/mock-data';
+import { useEventStore } from '@/store/eventStore';
 import {
   buildEventUrl, copyToClipboard,
   getPrivacyLabel
@@ -29,6 +29,11 @@ const PRIVACY_OPTIONS: { value: EventPrivacy; label: string; desc: string; icon:
 export function EventSettingsPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+
+  const getEventById = useEventStore((s) => s.getEventById);
+  const updateEvent = useEventStore((s) => s.updateEvent);
+  const deleteEvent = useEventStore((s) => s.deleteEvent);
+
   const event = getEventById(id ?? '');
 
   const [activeTab, setActiveTab] = useState<SettingsTab>('general');
@@ -37,7 +42,7 @@ export function EventSettingsPage() {
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  // Form state (initialised from mock event)
+  // Form state (initialised from event)
   const [title, setTitle] = useState(event?.title ?? '');
   const [location, setLocation] = useState(event?.location ?? '');
   const [description, setDescription] = useState(event?.description ?? '');
@@ -63,8 +68,18 @@ export function EventSettingsPage() {
 
   const handleSave = async () => {
     setIsSaving(true);
-    await new Promise(r => setTimeout(r, 800));
-    toast.success('Settings saved successfully');
+    updateEvent(event.id, {
+      title,
+      location,
+      description,
+      privacy,
+      allow_contributor_requests: allowContributorRequests,
+      allow_downloads: allowDownloads,
+      enable_find_my_photos: enableFindMyPhotos,
+      expiry_at: expiryAt,
+    });
+    await new Promise(r => setTimeout(r, 400));
+    toast.success('Settings saved successfully!');
     setIsSaving(false);
   };
 
@@ -78,7 +93,7 @@ export function EventSettingsPage() {
       toast.error('Event title does not match');
       return;
     }
-    await new Promise(r => setTimeout(r, 800));
+    deleteEvent(event.id);
     toast.success('Event deleted');
     navigate('/dashboard');
   };

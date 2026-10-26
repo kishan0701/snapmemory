@@ -315,16 +315,25 @@
   }
 
   @media (max-width: 768px) {
-    .masonry-grid { columns: 2; }
+    .masonry-grid {
+      columns: 2;
+      column-gap: 0.5rem;
+    }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 340px) {
     .masonry-grid { columns: 1; }
   }
 
   .masonry-item {
     break-inside: avoid;
     margin-bottom: 0.75rem;
+  }
+
+  @media (max-width: 768px) {
+    .masonry-item {
+      margin-bottom: 0.5rem;
+    }
   }
 
   /* ─── Auth styles are cleanly handled via Tailwind in AuthPage.tsx ─── */
