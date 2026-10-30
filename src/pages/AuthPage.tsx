@@ -296,7 +296,7 @@ export function AuthPage() {
               <div className="flex justify-center">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-lg text-xs font-semibold text-purple-200">
                   <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                  <span>50,000+ Memories Shared</span>
+                  <span>450+ Memories Shared</span>
                 </div>
               </div>
 
@@ -375,7 +375,7 @@ export function AuthPage() {
                   ))}
                 </div>
                 <p className="text-xs text-purple-300/70 font-medium">
-                  Loved by 2,400+ couples & event organizers
+                  Loved by 350+ event organizers & hosts
                 </p>
               </div>
 

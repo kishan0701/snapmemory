@@ -116,8 +116,8 @@ const FEATURE_CARDS = [
 
 const STATS = [
   { value: '120+', label: 'Events Created', icon: Camera },
-  { value: '1.8K+', label: 'Photos Shared', icon: Images },
-  { value: '300+', label: 'Happy Users', icon: Users },
+  { value: '450+', label: 'Photos Shared', icon: Images },
+  { value: '280+', label: 'Happy Users', icon: Users },
   { value: '4.8★', label: 'App Rating', icon: Star },
 ];
 
