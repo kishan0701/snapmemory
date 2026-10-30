@@ -163,7 +163,7 @@ export async function detectFaceDescriptor(
       .withFaceDescriptors();
 
     if (detections && detections.length > 0) {
-      detections.sort((a, b) => (b.box.width * b.box.height) - (a.box.width * a.box.height));
+      detections.sort((a, b) => (b.detection.box.width * b.detection.box.height) - (a.detection.box.width * a.detection.box.height));
       return detections[0].descriptor;
     }
   } catch {
