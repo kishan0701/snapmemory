@@ -8,6 +8,13 @@ import type {
   Notification,
   EventAnalytics,
 } from '@/types';
+import { generateSeededEmbedding } from '@/services/faceMatcher';
+
+// Deterministic face embedding clusters for people in mock events
+export const PERSON_BRIDE_EMB = generateSeededEmbedding('priya-bride-face-cluster');
+export const PERSON_GROOM_EMB = generateSeededEmbedding('rohan-groom-face-cluster');
+export const PERSON_FRIEND_EMB = generateSeededEmbedding('friends-group-face-cluster');
+export const PERSON_FAMILY_EMB = generateSeededEmbedding('family-elders-face-cluster');
 
 // ─── Mock Users ───────────────────────────────────────────────────────────────
 export const MOCK_USERS: User[] = [
@@ -127,10 +134,28 @@ function makePhoto(
   width: number,
   height: number,
   daysAgo: number,
-  isFavorited = false
+  isFavorited = false,
+  customDescriptors?: number[][]
 ): Media {
   const d = new Date();
   d.setDate(d.getDate() - daysAgo);
+
+  // Clustered realistic face embeddings for demo events
+  let descriptors = customDescriptors;
+  if (!descriptors) {
+    if (filename.includes('ceremony') || filename.includes('couple')) {
+      descriptors = [PERSON_BRIDE_EMB, PERSON_GROOM_EMB];
+    } else if (filename.includes('reception')) {
+      descriptors = [PERSON_BRIDE_EMB, PERSON_GROOM_EMB, PERSON_FRIEND_EMB];
+    } else if (filename.includes('friends') || filename.includes('party') || filename.includes('dance')) {
+      descriptors = [PERSON_FRIEND_EMB];
+    } else if (filename.includes('family') || filename.includes('dinner')) {
+      descriptors = [PERSON_BRIDE_EMB, PERSON_FAMILY_EMB];
+    } else {
+      descriptors = [generateSeededEmbedding(id + filename)];
+    }
+  }
+
   return {
     id,
     event_id: eventId,
@@ -151,6 +176,9 @@ function makePhoto(
     is_favorited: isFavorited,
     favorite_count: Math.floor(Math.random() * 20),
     download_count: Math.floor(Math.random() * 50),
+    approval_status: 'approved',
+    is_approved: true,
+    face_descriptors: descriptors,
   };
 }
 

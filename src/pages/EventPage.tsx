@@ -419,6 +419,7 @@ export function EventPage() {
                 albums={albums}
                 canDownload={event.allow_downloads}
                 canDelete={isOwner}
+                onOpenFindMyPhotos={() => setActiveTab('find-my-photos')}
               />
             </motion.div>
           )}
@@ -948,7 +949,7 @@ function FindMyPhotosTab({
         descriptor,
         eventPhotos,
         (scanned, total, currentFile) => setProgress((p) => ({ ...p, scanned, total, currentFile })),
-        0.52,
+        0.60,
         onDescriptorCached
       );
 

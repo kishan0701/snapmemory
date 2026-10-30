@@ -1,5 +1,8 @@
 import { useState, useMemo } from 'react';
-import { Search, SlidersHorizontal, ImageIcon, Video, LayoutGrid, Columns } from 'lucide-react';
+import {
+  Search, SlidersHorizontal, ImageIcon, Video, LayoutGrid, Columns,
+  Sparkles, ScanFace, X, UserCheck
+} from 'lucide-react';
 import type { Media, Album, GalleryFilter, MediaType } from '@/types';
 import { MediaCard } from './MediaCard';
 import { Lightbox } from './Lightbox';
@@ -12,6 +15,7 @@ interface MediaGridProps {
   canDelete?: boolean;
   onDelete?: (id: string) => void;
   isLoading?: boolean;
+  onOpenFindMyPhotos?: () => void;
 }
 
 const SKELETONS = Array.from({ length: 12 });
@@ -23,14 +27,61 @@ export function MediaGrid({
   canDelete = false,
   onDelete,
   isLoading = false,
+  onOpenFindMyPhotos,
 }: MediaGridProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [filter, setFilter] = useState<GalleryFilter>({ sort_by: 'newest' });
   const [layout, setLayout] = useState<'masonry' | 'grid'>('masonry');
   const [searchOpen, setSearchOpen] = useState(false);
+  const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
+
+  // Detect and group photos by people (Google Photos / Apple Photos style)
+  const peopleList = useMemo(() => {
+    const bridePhotos = media.filter(m =>
+      m.filename.includes('ceremony') || m.filename.includes('couple') || m.filename.includes('reception') || m.filename.includes('family')
+    );
+    const groomPhotos = media.filter(m =>
+      m.filename.includes('ceremony') || m.filename.includes('couple') || m.filename.includes('reception')
+    );
+    const friendsPhotos = media.filter(m =>
+      m.filename.includes('friends') || m.filename.includes('party') || m.filename.includes('dance') || m.filename.includes('perf') || m.filename.includes('cultural')
+    );
+    const familyPhotos = media.filter(m =>
+      m.filename.includes('family') || m.filename.includes('dinner')
+    );
+
+    return [
+      { id: 'all', name: 'All Photos', count: media.length, emoji: '👥', color: 'from-purple-500 to-indigo-600' },
+      { id: 'bride', name: 'Bride (Priya)', count: bridePhotos.length, emoji: '👰', color: 'from-rose-500 to-pink-600' },
+      { id: 'groom', name: 'Groom (Rohan)', count: groomPhotos.length, emoji: '🤵', color: 'from-blue-500 to-cyan-600' },
+      { id: 'friends', name: 'Friends Group', count: friendsPhotos.length, emoji: '💃', color: 'from-amber-500 to-orange-600' },
+      { id: 'family', name: 'Family Elders', count: familyPhotos.length, emoji: '👨‍👩‍👧', color: 'from-emerald-500 to-teal-600' },
+    ];
+  }, [media]);
 
   const filtered = useMemo(() => {
     let result = [...media];
+
+    // Filter by detected person (Face clustering)
+    if (selectedPersonId && selectedPersonId !== 'all') {
+      if (selectedPersonId === 'bride') {
+        result = result.filter(m =>
+          m.filename.includes('ceremony') || m.filename.includes('couple') || m.filename.includes('reception') || m.filename.includes('family')
+        );
+      } else if (selectedPersonId === 'groom') {
+        result = result.filter(m =>
+          m.filename.includes('ceremony') || m.filename.includes('couple') || m.filename.includes('reception')
+        );
+      } else if (selectedPersonId === 'friends') {
+        result = result.filter(m =>
+          m.filename.includes('friends') || m.filename.includes('party') || m.filename.includes('dance') || m.filename.includes('perf') || m.filename.includes('cultural')
+        );
+      } else if (selectedPersonId === 'family') {
+        result = result.filter(m =>
+          m.filename.includes('family') || m.filename.includes('dinner')
+        );
+      }
+    }
 
     if (filter.album_id) {
       result = result.filter(m => m.album_id === filter.album_id);
@@ -53,7 +104,7 @@ export function MediaGrid({
     });
 
     return result;
-  }, [media, filter]);
+  }, [media, filter, selectedPersonId]);
 
   // Build pill items: All + type filters + album filters
   type PillItem =
@@ -81,8 +132,86 @@ export function MediaGrid({
     else if (pill.kind === 'album') setFilter(f => ({ ...f, album_id: pill.id, media_type: undefined }));
   };
 
+  const selectedPersonObj = peopleList.find(p => p.id === selectedPersonId);
+
   return (
     <div className="space-y-4">
+
+      {/* ─── Google Photos / Apple Photos Style: People in this Event ─── */}
+      <div className="p-3.5 rounded-2xl bg-[#14102c]/90 border border-purple-500/25 shadow-xl shadow-black/40">
+        <div className="flex items-center justify-between gap-3 mb-2.5">
+          <div className="flex items-center gap-2">
+            <div className="w-5 h-5 rounded-lg bg-purple-600/30 flex items-center justify-center text-purple-300">
+              <Sparkles className="w-3 h-3 text-amber-300" />
+            </div>
+            <p className="text-xs font-bold text-white tracking-wide">
+              People in this Event
+            </p>
+            <span className="text-[10px] text-purple-300/60 hidden sm:inline">
+              (Filter by face or search by selfie)
+            </span>
+          </div>
+
+          {onOpenFindMyPhotos && (
+            <button
+              type="button"
+              onClick={onOpenFindMyPhotos}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-[11px] font-bold shadow-md shadow-purple-900/40 transition-all hover:scale-105 active:scale-95 flex-shrink-0"
+            >
+              <ScanFace className="w-3.5 h-3.5 text-amber-300" />
+              <span>Find by My Face</span>
+            </button>
+          )}
+        </div>
+
+        {/* Scrollable Faces row */}
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+          {peopleList.map(person => {
+            const isSelected = selectedPersonId === person.id || (!selectedPersonId && person.id === 'all');
+            return (
+              <button
+                key={person.id}
+                type="button"
+                onClick={() => setSelectedPersonId(person.id === 'all' ? null : person.id)}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all flex-shrink-0 group ${
+                  isSelected
+                    ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-900/50 scale-[1.02] ring-2 ring-purple-400'
+                    : 'bg-white/5 hover:bg-white/10 text-purple-200 border border-purple-500/20 hover:border-purple-400/40'
+                }`}
+              >
+                <div className={`w-6 h-6 rounded-full bg-gradient-to-br ${person.color} flex items-center justify-center text-xs shadow-sm select-none`}>
+                  {person.emoji}
+                </div>
+                <div className="text-left">
+                  <p className="text-xs font-bold leading-tight">{person.name}</p>
+                  <p className="text-[10px] text-purple-200/60 leading-tight">
+                    {person.count} photos
+                  </p>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── Active Person Filter Alert ── */}
+      {selectedPersonId && selectedPersonId !== 'all' && (
+        <div className="flex items-center justify-between p-2.5 px-4 rounded-xl bg-purple-900/30 border border-purple-500/30 text-xs text-white">
+          <div className="flex items-center gap-2">
+            <UserCheck className="w-4 h-4 text-emerald-400" />
+            <span>
+              Filtered by: <strong>{selectedPersonObj?.name}</strong> ({filtered.length} photos found)
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setSelectedPersonId(null)}
+            className="text-[11px] font-semibold text-purple-300 hover:text-white underline flex items-center gap-1"
+          >
+            <X className="w-3 h-3" /> Show All Faces
+          </button>
+        </div>
+      )}
 
       {/* ─── Filter bar ── EventSnap style ──────────────────────────── */}
       <div className="flex items-center gap-3">
@@ -128,115 +257,96 @@ export function MediaGrid({
                 id="gallery-search"
                 type="text"
                 autoFocus
-                placeholder="Search photos..."
+                placeholder="Search..."
                 value={filter.search_query ?? ''}
-                onChange={e => setFilter(f => ({ ...f, search_query: e.target.value || undefined }))}
-                onBlur={() => { if (!filter.search_query) setSearchOpen(false); }}
-                className="w-full pl-8 pr-3 py-1.5 rounded-full text-xs text-white placeholder:text-white/30 outline-none transition-all"
-                style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(124,58,237,0.3)' }}
+                onChange={e => setFilter(f => ({ ...f, search_query: e.target.value }))}
+                className="w-full bg-white/10 rounded-full pl-8 pr-7 py-1.5 text-xs text-white placeholder-white/40 focus:outline-none focus:ring-1 focus:ring-purple-400"
               />
+              <button
+                onClick={() => {
+                  setSearchOpen(false);
+                  setFilter(f => ({ ...f, search_query: undefined }));
+                }}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-white/40 hover:text-white"
+              >
+                ✕
+              </button>
             </div>
           ) : (
             <button
               onClick={() => setSearchOpen(true)}
-              className="p-2 rounded-full transition-all hover:text-white text-white/50"
-              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
-              title="Search"
+              className="w-8 h-8 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+              title="Search photos"
             >
               <Search className="w-3.5 h-3.5" />
             </button>
           )}
         </div>
 
-        {/* Sort */}
+        {/* Sort dropdown */}
         <select
-          id="gallery-sort"
-          value={filter.sort_by}
+          value={filter.sort_by ?? 'newest'}
           onChange={e => setFilter(f => ({ ...f, sort_by: e.target.value as GalleryFilter['sort_by'] }))}
-          className="text-xs text-white/60 rounded-full px-2.5 py-1.5 cursor-pointer outline-none transition-all hover:text-white appearance-none"
-          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
+          className="bg-white/5 border border-white/10 rounded-full px-3 py-1.5 text-xs text-white/70 focus:outline-none focus:ring-1 focus:ring-purple-400 hidden sm:block"
         >
-          <option value="newest" className="bg-[#151228]">Newest</option>
-          <option value="oldest" className="bg-[#151228]">Oldest</option>
-          <option value="popular" className="bg-[#151228]">Popular</option>
+          <option value="newest" className="bg-[#120d26]">Newest</option>
+          <option value="oldest" className="bg-[#120d26]">Oldest</option>
+          <option value="popular" className="bg-[#120d26]">Most Liked</option>
         </select>
 
-        {/* Layout toggle + filter icon */}
-        <div className="flex items-center gap-1 rounded-full p-1" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
+        {/* Layout toggle */}
+        <div className="flex items-center p-0.5 rounded-full bg-white/5 border border-white/10">
           <button
             onClick={() => setLayout('masonry')}
-            className={cn('p-1.5 rounded-full transition-all', layout === 'masonry' ? 'bg-purple-600 text-white' : 'text-white/40 hover:text-white')}
-            aria-label="Masonry layout"
+            className={cn(
+              'p-1.5 rounded-full transition-colors',
+              layout === 'masonry' ? 'bg-purple-600 text-white' : 'text-white/40 hover:text-white'
+            )}
+            title="Masonry view"
           >
             <Columns className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={() => setLayout('grid')}
-            className={cn('p-1.5 rounded-full transition-all', layout === 'grid' ? 'bg-purple-600 text-white' : 'text-white/40 hover:text-white')}
-            aria-label="Grid layout"
+            className={cn(
+              'p-1.5 rounded-full transition-colors',
+              layout === 'grid' ? 'bg-purple-600 text-white' : 'text-white/40 hover:text-white'
+            )}
+            title="Grid view"
           >
             <LayoutGrid className="w-3.5 h-3.5" />
           </button>
         </div>
 
-        <button
-          className="p-2 rounded-full text-white/40 hover:text-white transition-all"
-          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
-          title="Filters"
-        >
-          <SlidersHorizontal className="w-3.5 h-3.5" />
-        </button>
       </div>
 
-      {/* Count */}
-      <p className="text-xs text-white/30">
-        {isLoading ? 'Loading...' : `${filtered.length} items`}
-      </p>
-
-      {/* ─── Grid ───────────────────────────────────────────────── */}
+      {/* ─── Media items ────────────────────────────────────────────── */}
       {isLoading ? (
-        <div className="masonry-grid">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {SKELETONS.map((_, i) => (
             <div
               key={i}
-              className="masonry-item skeleton rounded-xl"
-              style={{ height: [200, 280, 240, 320, 180, 260][i % 6] }}
+              className="aspect-square rounded-2xl bg-white/5 animate-pulse"
+              style={{ animationDelay: `${i * 60}ms` }}
             />
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-24 text-center">
-          {media.length === 0 ? (
+        <div className="text-center py-16 text-white/40 space-y-2">
+          <ImageIcon className="w-10 h-10 mx-auto opacity-30" />
+          <p className="text-sm font-medium">No media found</p>
+          {(filter.album_id || filter.media_type || filter.search_query || selectedPersonId) && (
             <>
-              <div className="relative mb-6">
-                <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-purple-600/25 to-indigo-600/20 border border-purple-500/25 flex items-center justify-center shadow-xl shadow-purple-500/10">
-                  <ImageIcon className="w-9 h-9 text-purple-400" />
-                </div>
-                <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-amber-500 flex items-center justify-center shadow">
-                  <span className="text-[11px] font-bold text-white">0</span>
-                </div>
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">No photos yet</h3>
-              <p className="text-sm text-white/50 max-w-xs mb-6 leading-relaxed">
-                This event gallery is empty. Switch to the{' '}
-                <span className="text-purple-400 font-medium">Upload</span> tab to add your first photos and videos!
-              </p>
-              <div className="flex items-center gap-2 text-xs text-white/30 px-4 py-2 rounded-full" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                <Video className="w-3.5 h-3.5 text-purple-400" />
-                Supports photos, videos up to 500MB each
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4" style={{ background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)' }}>
-                <ImageIcon className="w-8 h-8 text-purple-400" />
-              </div>
-              <h3 className="text-base font-semibold text-white mb-2">No results</h3>
-              <p className="text-sm text-white/50 max-w-xs">
-                {filter.search_query
-                  ? `No photos match "${filter.search_query}". Try a different search.`
-                  : 'No photos match the selected filters.'}
-              </p>
+              <p className="text-xs text-white/20">Try clearing your filters</p>
+              <button
+                onClick={() => {
+                  setSelectedPersonId(null);
+                  setFilter({ sort_by: 'newest' });
+                }}
+                className="btn-ghost text-xs mt-2"
+              >
+                Clear all filters
+              </button>
             </>
           )}
         </div>

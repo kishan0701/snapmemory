@@ -102,7 +102,7 @@ export function FindMyPhotosPage() {
         (scanned, total, currentFile) => {
           setProgress(p => ({ ...p, scanned, total, currentFile }));
         },
-        0.52,
+        0.60,
         (mediaId, desc) => updateMediaFaceDescriptors(mediaId, desc)
       );
 
