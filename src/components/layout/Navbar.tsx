@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Bell, Menu, X, ChevronDown, LogOut,
-  Settings, User, LayoutDashboard, Plus, Zap
+  Settings, User, LayoutDashboard, Plus, Zap, Home
 } from 'lucide-react';
 import { useAuth } from '@/features/auth/AuthContext';
 import { MOCK_NOTIFICATIONS } from '@/lib/mock-data';
@@ -110,6 +110,17 @@ export function Navbar() {
               </>
             ) : isAuthenticated ? (
               <>
+                <Link
+                  to="/"
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                    location.pathname === '/'
+                      ? 'bg-purple-600/20 text-white border border-purple-500/30'
+                      : 'text-secondary hover:text-white hover:bg-white/6'
+                  }`}
+                >
+                  <Home className="w-3.5 h-3.5" />
+                  Home
+                </Link>
                 <Link
                   to="/dashboard"
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
@@ -247,6 +258,13 @@ export function Navbar() {
                           <LayoutDashboard className="w-4 h-4 text-purple-400" /> Dashboard
                         </Link>
                         <Link
+                          to="/"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-purple-200 hover:text-white hover:bg-white/8 transition-colors"
+                        >
+                          <Home className="w-4 h-4 text-purple-400" /> Home Page
+                        </Link>
+                        <Link
                           to="/create-event"
                           onClick={() => setUserMenuOpen(false)}
                           className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-purple-200 hover:text-white hover:bg-white/8 transition-colors"
@@ -335,7 +353,8 @@ export function Navbar() {
                       <p className="text-[10px] text-purple-300/70 truncate">{user?.email}</p>
                     </div>
                   </div>
-                  <Link to="/dashboard" onClick={() => setMobileOpen(false)} className="block py-2 text-sm text-secondary hover:text-white">Dashboard</Link>
+                  <Link to="/" onClick={() => setMobileOpen(false)} className="block py-2 text-sm text-secondary hover:text-white flex items-center gap-2"><Home className="w-4 h-4 text-purple-400" /> Home Page</Link>
+                  <Link to="/dashboard" onClick={() => setMobileOpen(false)} className="block py-2 text-sm text-secondary hover:text-white flex items-center gap-2"><LayoutDashboard className="w-4 h-4 text-purple-400" /> Dashboard</Link>
                   <Link to="/create-event" onClick={() => setMobileOpen(false)} className="block py-2 text-sm text-purple-400 hover:text-purple-300">+ New Event</Link>
                   <button onClick={() => { setMobileOpen(false); logout(); }} className="block py-2 text-sm text-red-400 hover:text-red-300 w-full text-left">Sign out</button>
                 </>
