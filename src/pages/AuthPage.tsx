@@ -67,7 +67,7 @@ export function AuthPage() {
     }
     try {
       await login(loginForm.email, loginForm.password);
-      toast.success('Welcome back, Kishan! 🎉');
+      toast.success(`Welcome back, ${loginForm.email.split('@')[0]}! 🎉`);
       navigate(from, { replace: true });
     } catch (err: unknown) {
       setLoginError(err instanceof Error ? err.message : 'Login failed. Please check credentials.');
