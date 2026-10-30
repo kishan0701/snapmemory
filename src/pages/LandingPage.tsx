@@ -115,10 +115,10 @@ const FEATURE_CARDS = [
 ];
 
 const STATS = [
-  { value: '50K+', label: 'Events Created', icon: Camera },
-  { value: '2.4M+', label: 'Photos Shared', icon: Images },
-  { value: '120K+', label: 'Happy Users', icon: Users },
-  { value: '4.9★', label: 'App Rating', icon: Star },
+  { value: '120+', label: 'Events Created', icon: Camera },
+  { value: '1.8K+', label: 'Photos Shared', icon: Images },
+  { value: '300+', label: 'Happy Users', icon: Users },
+  { value: '4.8★', label: 'App Rating', icon: Star },
 ];
 
 // ─── Animated Section Wrapper ──────────────────────────────────────────────────
@@ -220,7 +220,7 @@ export function LandingPage() {
             </p>
 
             <div className="flex flex-wrap gap-3 mb-8">
-              <Link to="/auth?mode=register" className="btn-primary px-6 py-3 text-base shadow-2xl shadow-purple-500/30">
+              <Link to="/signup" className="btn-primary px-6 py-3 text-base shadow-2xl shadow-purple-500/30">
                 Create Event <ArrowRight className="w-4 h-4" />
               </Link>
               <Link to="/event/evt-1" className="btn-secondary px-6 py-3 text-base gap-2">
@@ -621,7 +621,7 @@ export function LandingPage() {
                 Create your first event gallery in under 2 minutes. Your guests will thank you.
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
-                <Link to="/auth?mode=register" className="btn-primary px-8 py-3.5 text-base">
+                <Link to="/signup" className="btn-primary px-8 py-3.5 text-base">
                   Create Free Event <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link to="/event/evt-1" className="btn-secondary px-8 py-3.5 text-base">

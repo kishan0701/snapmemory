@@ -85,6 +85,80 @@ export function getInitials(name: string): string {
     .slice(0, 2);
 }
 
+export function getFirstLetter(name?: string): string {
+  if (!name || !name.trim()) return '?';
+  const clean = name.trim().replace(/^[^a-zA-Z0-9]+/, '');
+  return (clean || name.trim()).charAt(0).toUpperCase();
+}
+
+export interface AvatarTheme {
+  bg: string;
+  ring: string;
+  badge: string;
+  border: string;
+}
+
+export function getAvatarTheme(name?: string): AvatarTheme {
+  const safeName = name && name.trim() ? name.trim() : 'User';
+  const themes: AvatarTheme[] = [
+    {
+      bg: 'bg-gradient-to-br from-emerald-500 to-teal-700',
+      ring: 'ring-emerald-400/40',
+      badge: 'bg-emerald-500/20 text-emerald-300',
+      border: 'border-emerald-500/30',
+    },
+    {
+      bg: 'bg-gradient-to-br from-purple-600 to-indigo-800',
+      ring: 'ring-purple-400/40',
+      badge: 'bg-purple-500/20 text-purple-300',
+      border: 'border-purple-500/30',
+    },
+    {
+      bg: 'bg-gradient-to-br from-blue-500 to-indigo-700',
+      ring: 'ring-blue-400/40',
+      badge: 'bg-blue-500/20 text-blue-300',
+      border: 'border-blue-500/30',
+    },
+    {
+      bg: 'bg-gradient-to-br from-amber-500 to-rose-700',
+      ring: 'ring-amber-400/40',
+      badge: 'bg-amber-500/20 text-amber-300',
+      border: 'border-amber-500/30',
+    },
+    {
+      bg: 'bg-gradient-to-br from-rose-500 to-pink-700',
+      ring: 'ring-rose-400/40',
+      badge: 'bg-rose-500/20 text-rose-300',
+      border: 'border-rose-500/30',
+    },
+    {
+      bg: 'bg-gradient-to-br from-cyan-500 to-blue-700',
+      ring: 'ring-cyan-400/40',
+      badge: 'bg-cyan-500/20 text-cyan-300',
+      border: 'border-cyan-500/30',
+    },
+    {
+      bg: 'bg-gradient-to-br from-teal-500 to-emerald-800',
+      ring: 'ring-teal-400/40',
+      badge: 'bg-teal-500/20 text-teal-300',
+      border: 'border-teal-500/30',
+    },
+    {
+      bg: 'bg-gradient-to-br from-violet-500 to-purple-800',
+      ring: 'ring-violet-400/40',
+      badge: 'bg-violet-500/20 text-violet-300',
+      border: 'border-violet-500/30',
+    },
+  ];
+
+  let hash = 0;
+  for (let i = 0; i < safeName.length; i++) {
+    hash = safeName.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const idx = Math.abs(hash) % themes.length;
+  return themes[idx];
+}
+
 export function slugify(str: string): string {
   return str
     .toLowerCase()

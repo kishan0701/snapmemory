@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/features/auth/AuthContext';
 import { MOCK_NOTIFICATIONS } from '@/lib/mock-data';
-import { getInitials, formatRelativeTime } from '@/lib/utils';
+import { getFirstLetter, getAvatarTheme, formatRelativeTime } from '@/lib/utils';
 
 export function Navbar() {
   const { user, logout, isAuthenticated } = useAuth();
@@ -23,6 +23,8 @@ export function Navbar() {
   const mobileDrawerRef = useRef<HTMLDivElement>(null);
 
   const unreadCount = MOCK_NOTIFICATIONS.filter(n => !n.read_at).length;
+  const avatarTheme = getAvatarTheme(user?.name);
+  const firstLetter = getFirstLetter(user?.name);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -200,17 +202,17 @@ export function Navbar() {
                   <button
                     id="nav-user-menu-btn"
                     onClick={() => { setUserMenuOpen(p => !p); setNotifOpen(false); }}
-                    className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/6 transition-colors"
+                    className="flex items-center gap-2 px-2 py-1.5 rounded-xl hover:bg-white/8 transition-all border border-transparent hover:border-purple-500/20"
+                    title={user?.name || 'Account'}
                   >
-                    <div className="w-7 h-7 rounded-full gradient-brand flex items-center justify-center text-white text-xs font-bold">
-                      {user?.avatar_url ? (
-                        <img src={user.avatar_url} alt={user.name} className="w-full h-full rounded-full object-cover" />
-                      ) : (
-                        getInitials(user?.name ?? 'U')
-                      )}
+                    {/* WhatsApp-style dynamic circular avatar with 1st letter */}
+                    <div className={`w-8 h-8 rounded-full ${avatarTheme.bg} ring-2 ${avatarTheme.ring} flex items-center justify-center text-white text-xs font-black shadow-md shadow-black/40 select-none flex-shrink-0`}>
+                      {firstLetter}
                     </div>
-                    <span className="text-sm font-medium text-white hidden sm:block max-w-24 truncate">{user?.name}</span>
-                    <ChevronDown className="w-3.5 h-3.5 text-muted hidden sm:block" />
+                    <span className="text-sm font-semibold text-white hidden sm:block max-w-28 truncate">
+                      {user?.name}
+                    </span>
+                    <ChevronDown className="w-3.5 h-3.5 text-purple-300/60 hidden sm:block" />
                   </button>
 
                   <AnimatePresence>
@@ -220,38 +222,43 @@ export function Navbar() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 8, scale: 0.95 }}
                         transition={{ duration: 0.15 }}
-                        className="absolute right-0 top-11 w-52 glass rounded-xl shadow-2xl shadow-black/40 overflow-hidden py-1"
+                        className="absolute right-0 top-11 w-60 glass rounded-2xl shadow-2xl shadow-black/60 overflow-hidden py-1 border border-purple-500/30"
                       >
-                        <div className="px-3 py-2 border-b border-purple-900/20 mb-1">
-                          <p className="text-sm font-medium text-white truncate">{user?.name}</p>
-                          <p className="text-xs text-muted truncate">{user?.email}</p>
+                        {/* WhatsApp-style User Card inside Dropdown */}
+                        <div className="px-3.5 py-3 border-b border-purple-900/30 mb-1 bg-purple-950/40 flex items-center gap-3">
+                          <div className={`w-11 h-11 rounded-full ${avatarTheme.bg} ring-2 ${avatarTheme.ring} flex items-center justify-center text-white text-base font-black shadow-lg shadow-black/50 flex-shrink-0 select-none`}>
+                            {firstLetter}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm font-bold text-white truncate">{user?.name}</p>
+                            <p className="text-[11px] text-purple-300/70 truncate">{user?.email}</p>
+                            <div className="mt-1 flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                              <span className="text-[10px] text-emerald-300 font-semibold uppercase tracking-wider">Account Active</span>
+                            </div>
+                          </div>
                         </div>
+
                         <Link
                           to="/dashboard"
                           onClick={() => setUserMenuOpen(false)}
-                          className="flex items-center gap-2.5 px-3 py-2 text-sm text-secondary hover:text-white hover:bg-white/6 transition-colors"
+                          className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-purple-200 hover:text-white hover:bg-white/8 transition-colors"
                         >
-                          <LayoutDashboard className="w-4 h-4" /> Dashboard
+                          <LayoutDashboard className="w-4 h-4 text-purple-400" /> Dashboard
                         </Link>
                         <Link
-                          to="/profile"
+                          to="/create-event"
                           onClick={() => setUserMenuOpen(false)}
-                          className="flex items-center gap-2.5 px-3 py-2 text-sm text-secondary hover:text-white hover:bg-white/6 transition-colors"
+                          className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-purple-200 hover:text-white hover:bg-white/8 transition-colors"
                         >
-                          <User className="w-4 h-4" /> Profile
+                          <Plus className="w-4 h-4 text-purple-400" /> Create Event
                         </Link>
-                        <Link
-                          to="/settings"
-                          onClick={() => setUserMenuOpen(false)}
-                          className="flex items-center gap-2.5 px-3 py-2 text-sm text-secondary hover:text-white hover:bg-white/6 transition-colors"
-                        >
-                          <Settings className="w-4 h-4" /> Settings
-                        </Link>
-                        <div className="border-t border-purple-900/20 mt-1 pt-1">
+                        
+                        <div className="border-t border-purple-900/30 mt-1 pt-1">
                           <button
                             id="nav-logout-btn"
                             onClick={() => { setUserMenuOpen(false); logout(); }}
-                            className="flex items-center gap-2.5 px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors w-full text-left"
+                            className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors w-full text-left"
                           >
                             <LogOut className="w-4 h-4" /> Sign out
                           </button>
@@ -319,6 +326,15 @@ export function Navbar() {
               )}
               {isAuthenticated && (
                 <>
+                  <div className="flex items-center gap-3 p-2.5 mb-2 rounded-xl bg-purple-950/60 border border-purple-500/25">
+                    <div className={`w-9 h-9 rounded-full ${avatarTheme.bg} ring-2 ${avatarTheme.ring} flex items-center justify-center text-white text-xs font-black shadow-md flex-shrink-0 select-none`}>
+                      {firstLetter}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs font-bold text-white truncate">{user?.name}</p>
+                      <p className="text-[10px] text-purple-300/70 truncate">{user?.email}</p>
+                    </div>
+                  </div>
                   <Link to="/dashboard" onClick={() => setMobileOpen(false)} className="block py-2 text-sm text-secondary hover:text-white">Dashboard</Link>
                   <Link to="/create-event" onClick={() => setMobileOpen(false)} className="block py-2 text-sm text-purple-400 hover:text-purple-300">+ New Event</Link>
                   <button onClick={() => { setMobileOpen(false); logout(); }} className="block py-2 text-sm text-red-400 hover:text-red-300 w-full text-left">Sign out</button>

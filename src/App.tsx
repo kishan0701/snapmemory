@@ -29,10 +29,13 @@ export default function App() {
           {/* Auth routes (redirect if already logged in) */}
           <Route path="/login" element={<GuestRoute><AuthPage /></GuestRoute>} />
           <Route path="/signup" element={<GuestRoute><AuthPage /></GuestRoute>} />
+          <Route path="/auth" element={<GuestRoute><AuthPage /></GuestRoute>} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
           {/* Protected routes */}
           <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+          <Route path="/settings" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
           <Route path="/create-event" element={<ProtectedRoute><CreateEventPage /></ProtectedRoute>} />
 
           {/* 404 */}

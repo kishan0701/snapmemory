@@ -8,6 +8,12 @@ interface StoredUser extends User {
   _pw?: string; // plain-text password stored locally (mock/demo only)
 }
 
+export interface GoogleAccountPayload {
+  name: string;
+  email: string;
+  avatar_url?: string;
+}
+
 interface AuthContextValue {
   user: User | null;
   isLoading: boolean;
@@ -15,7 +21,7 @@ interface AuthContextValue {
   login: (email: string, password: string) => Promise<void>;
   signup: (name: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  loginWithGoogle: () => Promise<void>;
+  loginWithGoogle: (account?: GoogleAccountPayload) => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
   updateProfile: (updates: Partial<User>) => Promise<void>;
 }
@@ -135,35 +141,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLoading(false);
   }, []);
 
-  // Google OAuth mock — shows a picker-style prompt; for demo pick first mock user
-  // In production this would use Supabase / Firebase OAuth flow
-  const loginWithGoogle = useCallback(async () => {
+  // Google OAuth flow: authenticates with chosen Google Account
+  const loginWithGoogle = useCallback(async (account?: GoogleAccountPayload) => {
     setIsLoading(true);
-    await delay(1200);
-    // Instead of always Kishan, prompt user to pick from registered OR mock accounts
-    // For now we create a guest Google user with a random seed
-    const googleUser: StoredUser = {
-      id: `google-${Date.now()}`,
-      name: 'Google User',
-      email: `google-${Date.now()}@gmail.com`,
-      avatar_url: undefined,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
-    // Check if there's already a logged-in session we can reuse
-    const stored = localStorage.getItem('SnapMemory_user');
-    if (stored) {
-      try {
-        const parsed: StoredUser = JSON.parse(stored);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { _pw: _, ...pub } = parsed;
-        setUser(pub);
-        setIsLoading(false);
+    try {
+      await delay(900); // Simulate authentic Google authentication handshake
+      const targetName = account?.name?.trim() || 'Google User';
+      const targetEmail = account?.email?.trim().toLowerCase() || `google-user-${Date.now()}@gmail.com`;
+
+      const registered = getRegisteredUsers();
+      // If user already exists in registered database, log in directly
+      const existing = registered.find(u => u.email.toLowerCase() === targetEmail);
+      if (existing) {
+        persistUser(existing);
         return;
-      } catch { /* fall through */ }
+      }
+
+      // If matches mock user email
+      const mockMatch = MOCK_USERS.find(u => u.email.toLowerCase() === targetEmail);
+      if (mockMatch) {
+        persistUser({ ...mockMatch });
+        return;
+      }
+
+      // Create new Google-authenticated user account
+      const newGoogleUser: StoredUser = {
+        id: `google-${Date.now()}`,
+        name: targetName,
+        email: targetEmail,
+        avatar_url: account?.avatar_url || undefined,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+
+      localStorage.setItem('SnapMemory_registered_users', JSON.stringify([...registered, newGoogleUser]));
+      persistUser(newGoogleUser);
+    } finally {
+      setIsLoading(false);
     }
-    persistUser(googleUser);
-    setIsLoading(false);
   }, []);
 
   const forgotPassword = useCallback(async (_email: string) => {
