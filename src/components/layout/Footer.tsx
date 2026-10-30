@@ -3,9 +3,9 @@ import { MessageCircle, Globe2, Briefcase, Code2, Heart } from 'lucide-react';
 
 const footerLinks = {
   Product: [
-    { label: 'Features', href: '#features' },
-    { label: 'How It Works', href: '#how-it-works' },
-    { label: 'Pricing', href: '#pricing' },
+    { label: 'Features', href: '/#features' },
+    { label: 'How It Works', href: '/#how-it-works' },
+    { label: 'Pricing', href: '/#pricing' },
     { label: 'Demo', href: '/event/evt-1' },
   ],
   Platform: [
@@ -14,22 +14,29 @@ const footerLinks = {
     { label: 'Find My Photos', href: '/find-my-photos' },
   ],
   Company: [
-    { label: 'About', href: '#' },
-    { label: 'Blog', href: '#' },
-    { label: 'Careers', href: '#' },
-    { label: 'Contact', href: '#' },
+    { label: 'About', href: '/about' },
+    { label: 'Blog', href: '/blog' },
+    { label: 'Careers', href: '/careers' },
+    { label: 'Contact', href: '/contact' },
   ],
   Legal: [
-    { label: 'Privacy Policy', href: '#' },
-    { label: 'Terms of Service', href: '#' },
-    { label: 'Cookie Policy', href: '#' },
-    { label: 'GDPR', href: '#' },
+    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Terms of Service', href: '/terms' },
+    { label: 'Cookie Policy', href: '/cookies' },
+    { label: 'GDPR', href: '/gdpr' },
   ],
 };
 
+const SOCIAL_LINKS = [
+  { icon: MessageCircle, href: 'https://wa.me/?text=Hello%20SnapMemory%20Team!', label: 'WhatsApp Community', external: true },
+  { icon: Globe2, href: '/', label: 'SnapMemory Platform', external: false },
+  { icon: Briefcase, href: '/careers', label: 'Careers at SnapMemory', external: false },
+  { icon: Code2, href: 'https://github.com/kishan0701/snapmemory', label: 'GitHub Repository', external: true },
+];
+
 export function Footer() {
   return (
-    <footer className="border-t border-purple-900/20 mt-auto">
+    <footer className="border-t border-purple-900/20 mt-auto bg-[#0a0817]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8 mb-12">
           {/* Brand */}
@@ -48,15 +55,29 @@ export function Footer() {
               Every Event. Every Memory. One Place. The premium platform for event photo and video sharing.
             </p>
             <div className="flex items-center gap-2">
-              {[MessageCircle, Globe2, Briefcase, Code2].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="w-8 h-8 glass-light rounded-lg flex items-center justify-center hover:bg-purple-500/20 hover:border-purple-500/40 transition-all text-secondary hover:text-purple-300"
-                >
-                  <Icon className="w-3.5 h-3.5" />
-                </a>
-              ))}
+              {SOCIAL_LINKS.map((item, i) =>
+                item.external ? (
+                  <a
+                    key={i}
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    title={item.label}
+                    className="w-8 h-8 glass-light rounded-lg flex items-center justify-center hover:bg-purple-500/20 hover:border-purple-500/40 transition-all text-secondary hover:text-purple-300"
+                  >
+                    <item.icon className="w-3.5 h-3.5" />
+                  </a>
+                ) : (
+                  <Link
+                    key={i}
+                    to={item.href}
+                    title={item.label}
+                    className="w-8 h-8 glass-light rounded-lg flex items-center justify-center hover:bg-purple-500/20 hover:border-purple-500/40 transition-all text-secondary hover:text-purple-300"
+                  >
+                    <item.icon className="w-3.5 h-3.5" />
+                  </Link>
+                )
+              )}
             </div>
           </div>
 
@@ -84,7 +105,6 @@ export function Footer() {
           <p className="text-xs text-muted">
             © {new Date().getFullYear()} SnapMemory. All rights reserved.
           </p>
-          {/* Subtle credit — not in header, quietly in footer */}
           <p className="text-xs text-muted/50 flex items-center gap-1">
             Made with <Heart className="w-3 h-3 text-red-400/70" /> by{' '}
             <span className="text-purple-400/60 font-medium">Kishan Yadav</span>

@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, ProtectedRoute, GuestRoute } from '@/features/auth';
 import {
@@ -12,15 +13,53 @@ import {
   DownloadCenterPage,
   FindMyPhotosPage,
   NotFoundPage,
+  AboutPage,
+  BlogPage,
+  CareersPage,
+  ContactPage,
+  LegalPage,
+  FindMyPhotosHubPage,
 } from '@/pages';
+
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [pathname, hash]);
+
+  return null;
+}
 
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <AuthProvider>
         <Routes>
           {/* Public routes */}
           <Route path="/" element={<LandingPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/careers" element={<CareersPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+
+          {/* Legal routes */}
+          <Route path="/privacy" element={<LegalPage initialTab="privacy" />} />
+          <Route path="/terms" element={<LegalPage initialTab="terms" />} />
+          <Route path="/cookies" element={<LegalPage initialTab="cookies" />} />
+          <Route path="/gdpr" element={<LegalPage initialTab="gdpr" />} />
+          <Route path="/legal" element={<LegalPage initialTab="privacy" />} />
+
+          {/* Event routes */}
+          <Route path="/find-my-photos" element={<FindMyPhotosHubPage />} />
           <Route path="/event/:id" element={<EventPage />} />
           <Route path="/event/:id/find-my-photos" element={<FindMyPhotosPage />} />
           <Route path="/event/:id/settings" element={<ProtectedRoute><EventSettingsPage /></ProtectedRoute>} />

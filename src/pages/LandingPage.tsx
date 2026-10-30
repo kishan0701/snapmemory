@@ -548,14 +548,152 @@ export function LandingPage() {
                 </div>
               ))}
             </div>
-            <Link to="/event/evt-2/find-photos" className="btn-primary inline-flex">
+            <Link to="/event/evt-2/find-my-photos" className="btn-primary inline-flex">
               Try It Now <ScanFace className="w-4 h-4" />
             </Link>
           </FadeIn>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════
+            {/* ═══════════════════════════════════════════════════════════
+          PRICING
+      ═══════════════════════════════════════════════════════════ */}
+      <section id="pricing" className="max-w-7xl mx-auto px-4 sm:px-6 py-24 border-t border-purple-900/15">
+        <FadeIn className="text-center mb-16">
+          <p className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-3">Simple &amp; Transparent</p>
+          <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">
+            Plans for Every Celebration
+          </h2>
+          <p className="text-secondary max-w-lg mx-auto">
+            Start for free, then upgrade whenever your event scales. No hidden charges or subscription traps.
+          </p>
+        </FadeIn>
+
+        <div className="grid md:grid-cols-3 gap-8 items-stretch">
+          {/* Plan 1: Free */}
+          <FadeIn delay={0.1}>
+            <div className="card p-8 h-full flex flex-col justify-between border border-purple-500/20 bg-purple-950/15 hover:border-purple-500/40 transition-all duration-300">
+              <div>
+                <span className="badge badge-purple text-xs font-bold mb-3">Free Starter</span>
+                <div className="flex items-baseline gap-1 mb-2">
+                  <span className="text-4xl font-black text-white">₹0</span>
+                  <span className="text-muted text-xs">/ forever</span>
+                </div>
+                <p className="text-xs text-secondary mb-6 leading-relaxed">
+                  Perfect for birthday parties, housewarmings, and intimate dinners.
+                </p>
+
+                <div className="space-y-3 pt-4 border-t border-purple-900/20">
+                  {[
+                    '1 Live event gallery',
+                    'Up to 100 full-res photos',
+                    'Unlimited guest QR code scans',
+                    '30 days active gallery storage',
+                    'One-click guest photo downloads',
+                  ].map(f => (
+                    <div key={f} className="flex items-center gap-2.5 text-xs text-secondary">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                      <span>{f}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-8">
+                <Link to="/signup" className="btn-secondary w-full text-center block text-sm">
+                  Get Started Free
+                </Link>
+              </div>
+            </div>
+          </FadeIn>
+
+          {/* Plan 2: Pro Celebration */}
+          <FadeIn delay={0.2}>
+            <div className="card p-8 h-full flex flex-col justify-between border-2 border-purple-500 bg-gradient-to-b from-purple-950/40 via-[#181135] to-[#0f0a24] shadow-2xl shadow-purple-900/40 relative">
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white text-[11px] font-black uppercase tracking-wider shadow-md">
+                Most Popular
+              </div>
+
+              <div>
+                <span className="badge bg-purple-500/20 text-purple-300 border border-purple-500/40 text-xs font-bold mb-3">
+                  Pro Celebration
+                </span>
+                <div className="flex items-baseline gap-1 mb-2">
+                  <span className="text-4xl font-black text-white">₹499</span>
+                  <span className="text-muted text-xs">/ event</span>
+                </div>
+                <p className="text-xs text-secondary mb-6 leading-relaxed">
+                  Ideal for grand weddings, anniversary parties, and multi-day celebrations.
+                </p>
+
+                <div className="space-y-3 pt-4 border-t border-purple-900/20">
+                  {[
+                    'Everything in Free Starter',
+                    'Up to 450 full-res photos & 4K clips',
+                    'AI Face Recognition ("Find My Photos")',
+                    'Custom print-ready QR stand kit',
+                    '6 months high-speed cloud retention',
+                    'Contributor approval moderation',
+                  ].map(f => (
+                    <div key={f} className="flex items-center gap-2.5 text-xs text-white font-medium">
+                      <CheckCircle2 className="w-4 h-4 text-purple-400 flex-shrink-0" />
+                      <span>{f}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-8">
+                <Link to="/signup" className="btn-primary w-full text-center block text-sm shadow-lg shadow-purple-600/40">
+                  Choose Pro Celebration
+                </Link>
+              </div>
+            </div>
+          </FadeIn>
+
+          {/* Plan 3: Studio & Agency */}
+          <FadeIn delay={0.3}>
+            <div className="card p-8 h-full flex flex-col justify-between border border-purple-500/20 bg-purple-950/15 hover:border-purple-500/40 transition-all duration-300">
+              <div>
+                <span className="badge bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-bold mb-3">
+                  Studio &amp; Agency
+                </span>
+                <div className="flex items-baseline gap-1 mb-2">
+                  <span className="text-4xl font-black text-white">₹999</span>
+                  <span className="text-muted text-xs">/ event</span>
+                </div>
+                <p className="text-xs text-secondary mb-6 leading-relaxed">
+                  Tailored for professional photographers, event agencies, and college fest committees.
+                </p>
+
+                <div className="space-y-3 pt-4 border-t border-purple-900/20">
+                  {[
+                    'Unlimited guest photo uploads',
+                    'Multi-album categorization & PIN access',
+                    'Custom photographer branding & links',
+                    'Full batch ZIP downloads for guests',
+                    '1 year guaranteed cloud archive',
+                    'Priority 24/7 WhatsApp host hotline',
+                  ].map(f => (
+                    <div key={f} className="flex items-center gap-2.5 text-xs text-secondary">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                      <span>{f}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-8">
+                <Link to="/contact" className="btn-secondary w-full text-center block text-sm">
+                  Contact for Agency Demo
+                </Link>
+              </div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+{/* ═══════════════════════════════════════════════════════════
           TESTIMONIALS
       ═══════════════════════════════════════════════════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
