@@ -66,7 +66,7 @@ export const CURRENT_USER = MOCK_USERS[0];
 const WEDDING_PHOTOS = [
   'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80',
   'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800&q=80',
-  'https://images.unsplash.com/photo-1511285560929-80b456503681?w=800&q=80',
+  'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=800&q=80',
   'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=80',
   'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&q=80',
   'https://images.unsplash.com/photo-1550005809-91ad75fb315f?w=800&q=80',
@@ -79,11 +79,11 @@ const WEDDING_PHOTOS = [
   'https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800&q=80',
   'https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?w=800&q=80',
   'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=800&q=80',
-  'https://images.unsplash.com/photo-1504699543399-33f66acdc3c1?w=800&q=80',
+  'https://images.unsplash.com/photo-1544077960-604201fe74bc?w=800&q=80',
 ];
 
 const COLLEGE_PHOTOS = [
-  'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80',
+  'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80',
   'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80',
   'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80',
   'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=800&q=80',

@@ -61,7 +61,7 @@ export const CATEGORIZED_PRESETS: CoverPreset[] = [
     category: 'wedding',
   },
   {
-    url: 'https://images.unsplash.com/photo-1519225429980-715cb0215aed?w=1200&q=80',
+    url: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=1200&q=80',
     title: 'Fairy Light Reception Dinner',
     category: 'wedding',
   },
@@ -125,7 +125,7 @@ export const CATEGORIZED_PRESETS: CoverPreset[] = [
     category: 'party',
   },
   {
-    url: 'https://images.unsplash.com/photo-1571266028243-3716f02d2d2e?w=1200&q=80',
+    url: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1200&q=80',
     title: 'DJ Deck & EDM Music Fest',
     category: 'party',
   },
@@ -137,7 +137,7 @@ export const CATEGORIZED_PRESETS: CoverPreset[] = [
 
   // College & School
   {
-    url: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&q=80',
+    url: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&q=80',
     title: 'Convocation Caps in the Sky',
     category: 'college',
   },
@@ -191,7 +191,7 @@ export const CATEGORIZED_PRESETS: CoverPreset[] = [
 
   // Festivals & Culture
   {
-    url: 'https://images.unsplash.com/photo-1605649487212-47bdab064df8?w=1200&q=80',
+    url: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200&q=80',
     title: 'Diwali Diyas & Golden Light',
     category: 'festivals',
   },

@@ -712,7 +712,7 @@ function AlbumsTab({ eventId, albums, isOwner }: { eventId: string; albums: Retu
             >
               <div className="h-44 relative overflow-hidden bg-surface-900">
                 <img
-                  src={album.cover_url || 'https://images.unsplash.com/photo-1511285560929-80b456503681?w=800&q=80'}
+                  src={album.cover_url || 'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=800&q=80'}
                   alt={album.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />

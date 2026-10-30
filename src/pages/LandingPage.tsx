@@ -59,25 +59,25 @@ const OCCASIONS = [
     emoji: '💍',
     title: 'Weddings',
     desc: 'Capture your special day',
-    img: MOCK_MEDIA_WEDDING[2].preview_url!,
+    img: 'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=800&q=80',
   },
   {
     emoji: '🎓',
     title: 'College Events',
     desc: 'Fests, Farewells & More',
-    img: MOCK_MEDIA_COLLEGE[0].preview_url!,
+    img: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80',
   },
   {
     emoji: '🎂',
     title: 'Birthdays',
     desc: 'Cherish the moments',
-    img: MOCK_MEDIA_WEDDING[5].preview_url!,
+    img: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&q=80',
   },
   {
     emoji: '💼',
     title: 'Corporate Events',
     desc: 'Professional & Seamless',
-    img: MOCK_MEDIA_COLLEGE[3].preview_url!,
+    img: 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80',
   },
 ];
 
@@ -328,6 +328,11 @@ export function LandingPage() {
                 <img
                   src={occ.img}
                   alt={occ.title}
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80';
+                  }}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
