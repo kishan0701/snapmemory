@@ -76,8 +76,8 @@ Step 3: Show the Dashboard:
 
 Step 4: Open Demo Event ("Karan & Riya Wedding" or "TSDC Annual Fest"):
         "Here you can see the photo gallery. It is organized into albums like 
-        Ceremony, Reception, and Friends. At the top, we have a 'People in this Event' 
-        avatar bar to filter photos by person."
+        Ceremony, Reception, and Friends. At the top, we have a prominent 'Find Your Photos with AI Face Recognition' 
+        banner with quick access to face search."
 
 Step 5: Run "Find My Photos" (AI Face Match):
         Click "Find My Photos" tab -> Take a selfie or upload a face photo.
@@ -185,7 +185,7 @@ server, and face data is never stored or sold."
 6. Event Gallery (`/event/:id`):
    - Full event gallery with Pinterest-style masonry grid, fullscreen lightbox viewer, 
      albums tab, live upload zone, contributor list, and download analytics.
-   - "People in this Event" face avatar bar to filter photos by a person with one click.
+   - Quick "Find Your Photos with AI Face Recognition" banner directly leading to instant face scanning.
 
 7. Find My Photos (`/event/:id/find-my-photos`):
    - Selfie scanner that returns all matched photos ranked by similarity percentage.
