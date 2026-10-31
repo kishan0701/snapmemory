@@ -1,421 +1,315 @@
 ================================================================================
-       📸 SNAPMEMORY — ULTIMATE PROJECT VIVA & SEMESTER EXAM GUIDE (2026-2027)
+          📸 SNAPMEMORY — STUDENT VIVA & EXAM GUIDE (EASY & NATURAL)
    Thakur Shyamnarayan Degree College (TSDC), Kandivali (E), Mumbai — Univ. of Mumbai
     Submitted by: Kishan Yadav (Roll: 202403150) & Shivam Yadav (Roll: 202403149)
 ================================================================================
-Bhai/Dost, yeh guide latest codebase (React 19, On-Device AI Face Recognition,
-Multi-User Auth, Real Google OAuth Modal, Dedicated Pages & Live Vercel Deployment)
-ke hisaab se 100% updated hai. Chahe Viva kal subah ho ya semester theory exam me 
-project presentation, is file ko padh loge toh examiner ko impress karke A+ grade pakka!
+Bhai, yeh guide bilkul natural aur human student-level English + Hindi me likhi hai. 
+Isme koi robotic ya bookish language nahi hai. Isko normal doston ki tarah padh lo, 
+aur examiner ke samne natural confidence ke sath bolna — full marks aayenge!
 
-Live URL: https://snapmemory.vercel.app/
-GitHub:   https://github.com/kishan0701/snapmemory.git
-
-================================================================================
-📌 SECTION 1: 1-MINUTE ELEVATOR PITCH (Examiner puche: "Tell me about your project")
-================================================================================
-👉 ENGLISH ANSWER (Examiner / External ke samne confident bolne ke liye):
-"Good morning Sir/Ma'am. Our project is SnapMemory — an AI-powered smart event media 
-sharing and intelligent facial-recognition retrieval platform. 
-
-In traditional events like weddings, college fests, and conferences, guest photo collection 
-is broken: WhatsApp destroys image quality through heavy compression and exposes phone numbers, 
-while Google Drive requires manual curation, permissions, and lacks face discovery.
-
-SnapMemory solves this through three core pillars:
-1. Zero-Friction QR Onboarding: Guests scan a table QR code and access or upload photos instantly 
-   via a Progressive Web App (PWA) with zero mandatory app downloads.
-2. Lossless Original Resolution: All photographs retain 100% original sensor resolution, 
-   color fidelity, and EXIF camera metadata.
-3. On-Device AI Face Recognition: Powered by face-api.js and WebGL. A guest simply takes a 
-   selfie, and our client-side neural network computes 128-dimensional facial embeddings to 
-   instantly filter every photo containing that guest in under 2 seconds — with 100% biometric 
-   privacy, because no face data ever leaves the user's browser."
-
-👉 HINDI MEIN SIMPLE SAMJHO (Apne dimaag me concept baithane ke liye):
-Shadi ya college fest me 2000-3000 photos khinchti hain. Event ke baad log WhatsApp pe 
-mangte hain jisse photo blur (compress) ho jaati hai, aur Google Drive me 3000 photos me se 
-apni photo dhoondhte-dhoondhte ghanto lag jaate hain. 
-SnapMemory me:
-- Host ek click me QR code banata hai aur venue ke tables pe laga deta hai.
-- Guest bina koi app download kiye, camera se scan karke full HD photos daal sakta hai.
-- Guest bas 1 selfie upload karta hai, aur browser ke andar hi AI hazaron photos me se 
-  sirf uski photos nikaal kar screen pe la deta hai (1-2 second me)!
+Live Demo Link: https://snapmemory.vercel.app/
+GitHub Link:    https://github.com/kishan0701/snapmemory.git
 
 ================================================================================
-📌 SECTION 2: PROBLEM VS SOLUTION (Why SnapMemory? Comparison Table)
+📌 PART 1: PEHLE 30 SECONDS ME KYA BOLNA HAI? (Elevator Pitch)
 ================================================================================
-Parameter          | WhatsApp / Telegram   | Google Drive / Dropbox | SnapMemory (Our Project)
--------------------+-----------------------+------------------------+-----------------------------------
-Image Quality      | Compressed down to 10%| Original (if uploaded) | 100% Lossless Original Full HD/4K
-Guest Onboarding   | Needs phone number    | Needs Gmail + Access   | 1-Second QR Code Scan (Zero App)
-Privacy            | Phone number leaked   | Shared Drive risk      | Scoped Event PIN / Role Access
-Face Discovery     | ❌ None (Manual)       | ❌ None (Manual Search)| ✅ Instant AI Face Search (<2s)
-AI Privacy         | N/A                   | Server-side indexing   | 100% On-Device WebGL (Zero Server)
-Event Organization | Messy chat timeline   | Flat folders           | Auto-Albums, Live Feed, Analytics
-Moderation         | Anyone can spam       | Anyone with link edits | Contributor Request Approval Mode
+Jab examiner puche: "Okay Kishan/Shivam, introduce your project":
 
-================================================================================
-📌 SECTION 3: COMPLETE ARCHITECTURE & TECH STACK (Deep-Dive for Tech Viva)
-================================================================================
-Layer / Component   | Technology Used       | Justification / Why Chosen
---------------------+-----------------------+---------------------------------------------------
-Frontend Framework  | React 19              | Latest React release; concurrent rendering, hooks,
-                    |                       | sub-second virtual DOM updates.
-Language            | TypeScript (~6.0)     | Strict type safety, interface contracts, zero runtime
-                    |                       | type undefined bugs.
-Build Tool          | Vite 8                | Lightning-fast Hot Module Replacement (HMR) and
-                    |                       | optimized Rollup chunking (1.19s production build).
-Styling & UI        | Tailwind CSS v4       | Modern CSS-first atomic design system, glassmorphism,
-                    |                       | and responsive mobile-first dark mode.
-Animations          | Framer Motion 13      | Hardware-accelerated transitions, sliding auth cards,
-                    |                       | reader modals, and gesture-driven image interactions.
-AI Face Recognition | @vladmandic/face-api  | Client-side deep learning powered by TensorFlow.js,
-                    | (SSD MobileNet V1)    | WebGL hardware acceleration, 68-point landmarks.
-State Management    | Zustand 5             | Lightweight (1.2KB), zero-boilerplate global state store
-                    |                       | replacing bulky Redux.
-Database & Storage  | Supabase (PostgreSQL) | Relational SQL schema, Row Level Security (RLS), and
-                    |                       | S3-compatible media object storage.
-QR Generation       | qrcode.react          | High-contrast vector canvas QR codes with live download.
-Deployment          | Vercel Edge Network   | Global CDN hosting with customized cache-busting headers
-                    |                       | and automatic CI/CD deployment from GitHub.
+👉 Speak Naturally Like This (Easy English):
+"Good morning Sir/Ma'am. Our project is SnapMemory. It is a smart photo and video 
+sharing platform for events like weddings, college festivals, and parties.
+
+Right now, after any event, people share photos on WhatsApp where the quality gets 
+badly compressed, or on Google Drive where you have to scroll through 2,000 photos 
+just to find yourself.
+
+SnapMemory solves this in two simple ways:
+First, guests don't need to install any app. They just scan a QR code at the table 
+and can immediately view or upload photos in original quality.
+Second, we built an AI Face Recognition feature called 'Find My Photos'. The guest 
+takes one selfie, and our in-browser AI instantly finds all photos of that guest 
+in just two seconds — without storing their face data on any server."
+
+👉 Hindi Me Simple Baat:
+Shadi ya fest ke baad sab photos WhatsApp pe mangte hain jisse photo kharab ho jaati hai, 
+ya Google Drive me apni photo dhoondhte-dhoondhte pareshaan ho jaate hain. 
+SnapMemory me host ek QR code table pe laga deta hai. Guest camera se scan karke 
+full quality photos upload karta hai, aur selfie daal kar 2 second me sirf apni 
+photos nikaal leta hai!
 
 ================================================================================
-📌 SECTION 4: SCREEN-BY-SCREEN FUNCTIONALITY (Code ke saare pages aur unka kaam)
+📌 PART 2: THE REAL PROBLEM & HOW WE SOLVED IT
+================================================================================
+Examiner puche: "Market me already Google Drive aur WhatsApp hai, toh SnapMemory kyun?"
+
+1. WhatsApp Problem:
+   - Photo compress ho jaati hai (8MB ki photo 150KB ban jaati hai, print nahi nikal sakte).
+   - Group me sabka personal mobile number leak ho jata hai.
+   - Solution: SnapMemory original RAW/HD quality save karta hai aur kisi ka number nahi mangta.
+
+2. Google Drive Problem:
+   - Boring aur slow hai. Pehle link access permission maango.
+   - 2,000 photos me se apni 10 photo dhoondhna bohot painful hai.
+   - Solution: SnapMemory me AI Face Search hai. Selfie do -> Apni photos turant mil gayi.
+
+3. Native Mobile App Problem:
+   - Kisi ek shaadi ya fest ke liye koi 60MB ka app download nahi karna chahta.
+   - Solution: SnapMemory PWA (Web app) hai. Browser me 1 second me khulta hai (Zero Install).
+
+================================================================================
+📌 PART 3: HOW THE APP WORKS (Live Demo Steps During Viva)
+================================================================================
+Jab examiner bole: "Okay, show me the live demo":
+
+Step 1: Open https://snapmemory.vercel.app/
+        Show the Home screen: "Sir, this is the landing page with statistics, 
+        event use-cases, and pricing."
+
+Step 2: Show Authentication:
+        Click "Sign In" / "Create Account".
+        "Sir, we have multi-user registration with real-time password matching, 
+        a password strength meter, and an authentic Google sign-in permission dialog."
+
+Step 3: Show the Dashboard:
+        Go to Dashboard: "This is the host dashboard where the organizer can see 
+        total events, uploaded photos, and cloud storage used."
+
+Step 4: Open Demo Event ("Karan & Riya Wedding" or "TSDC Annual Fest"):
+        "Here you can see the photo gallery. It is organized into albums like 
+        Ceremony, Reception, and Friends. At the top, we have a 'People in this Event' 
+        avatar bar to filter photos by person."
+
+Step 5: Run "Find My Photos" (AI Face Match):
+        Click "Find My Photos" tab -> Take a selfie or upload a face photo.
+        "Sir, within 1.5 seconds, our AI scans all event photos and displays 
+        only matching photos with confidence percentage (like 94% match)."
+
+Step 6: Show Downloads:
+        "The guest can download a single photo or download their complete matching 
+        album as a ZIP file in one click."
+
+================================================================================
+📌 PART 4: TECH STACK IN SIMPLE WORDS (Why Did You Choose This?)
+================================================================================
+Examiner puche: "Why this technology?" Bolna:
+
+1. React 19:
+   - "Sir, we used the latest React 19 for fast component rendering and smooth UI. 
+     It handles dynamic photo grids and modal popups effortlessly without page reload."
+
+2. TypeScript:
+   - "TypeScript adds type-safety to JavaScript. It catches bugs like 'undefined' or 
+     missing photo properties during compile-time, so the app doesn't crash in production."
+
+3. Vite 8:
+   - "Vite is our build tool. Unlike old Create-React-App which was slow, Vite builds 
+     our entire project in just 1.19 seconds using modern ES modules."
+
+4. Tailwind CSS v4:
+   - "We used Tailwind for modern dark-mode styling, responsive layouts for mobile 
+     and laptop, and clean glassmorphism cards."
+
+5. @vladmandic/face-api (TensorFlow.js):
+   - "This is our AI face recognition library. It runs directly inside the client's 
+     web browser using WebGL graphics acceleration. No expensive GPU server needed."
+
+6. Zustand:
+   - "We used Zustand for global state management (current user, active event). 
+     Redux is too heavy and complex, while Zustand is tiny (around 1KB) and clean."
+
+7. Supabase / PostgreSQL:
+   - "For the backend, we designed relational tables (users, events, media, albums) 
+     with PostgreSQL and secure cloud storage buckets for high-res images."
+
+8. Vercel:
+   - "The live website is hosted on Vercel's global edge network with custom cache-control 
+     headers so users always get the freshest version without browser lag."
+
+================================================================================
+📌 PART 5: AI FACE RECOGNITION (Examiner Ka Favorite Question)
+================================================================================
+Examiner 100% puchega: "AI face matching kaise kaam karta hai? Explain simply."
+
+Answer in 4 easy steps (Examiner impress ho jayega):
+
+1. Face Detection:
+   "First, when the user uploads a selfie, our model (Tiny Face Detector / SSD MobileNet) 
+   finds where the face is located in the image and draws a box around it."
+
+2. 68 Landmark Points:
+   "Second, the AI marks 68 key points on the face — like eye corners, eyebrows, 
+   nose tip, lips, and jawline. This helps align the face even if the person is 
+   tilting their head slightly."
+
+3. 128-Number Descriptor (Embedding):
+   "Third, the neural network converts the face into a list of 128 mathematical numbers 
+   called a 'Face Descriptor'. These 128 numbers represent the unique structure of that face."
+
+4. Distance Matching (Euclidean Distance):
+   "Finally, the app compares the selfie's 128 numbers with the 128 numbers of all 
+   photos in the event. We calculate the Euclidean Distance between them.
+   If the distance is less than 0.60, it's a MATCH!
+   The smaller the distance, the higher the confidence percentage (like 90%+ match)."
+
+⭐ THE BIGGEST VIVA HIGHLIGHT — PRIVACY:
+"Sir, the most important feature is PRIVACY. All AI processing happens right inside 
+the user's browser (client-side WebGL). The selfie is NOT uploaded to any third-party 
+server, and face data is never stored or sold."
+
+================================================================================
+📌 PART 6: HAR EK PAGE AUR FEATURE KA QUICK TOUR
 ================================================================================
 
-1. LANDING PAGE (`/`)
-   - Hero Section: Dynamic gradient headline, dual CTAs ("Create Event" & "View Demo").
-   - Live Counter Stats: 120+ Events, 450+ Photos Shared, 280+ Happy Users, 4.8★ Rating.
-     (All numbers strictly calibrated under 500 for authentic presentation).
-   - Use Cases ("Perfect for Every Occasion"): Weddings, College Events, Birthdays, Corporate.
-     Equipped with verified 200 OK high-definition imagery and `onError` fallback handlers.
-   - Core Features Grid: 6 interactive feature cards with glowing borders.
-   - How It Works Preview: Mockup of live event gallery with real-time QR code display.
-   - AI Face Recognition Spotlight: Visual demonstration of selfie-to-photo matching.
-   - Pricing Section (`/#pricing`): 3 transparent tiers:
-     • Free Starter (₹0): 100 photos, 30-day cloud, 1 live gallery.
-     • Pro Celebration (₹499): 450 photos, AI face matching, custom print QR kit.
-     • Studio & Agency (₹999): Unlimited uploads, photographer branding, 1-year archive.
-   - Testimonials & Dynamic Footer.
+1. Home / Landing Page (`/`):
+   - Hero header, live counter stats (all under 500), occasions showcase, 
+     how it works preview, pricing section, testimonials, and footer.
 
-2. AUTHENTICATION & MULTI-USER SYSTEM (`/login`, `/signup`, `/auth`)
-   - Sliding 3D Auth Card: Dual mode (Sign In & Create Account) with smooth image transition.
-   - Realistic Multi-User Storage: Users are stored in secure local state with hashed passwords.
-     No more hardcoded "Kishan Yadav" auto-login — any user can create their own account!
-   - Password & Confirm Password: Real-time matching validation indicator ("Passwords match 
-     correctly" vs "Passwords do not match").
-   - 4-Level Password Strength Meter: Real-time visual feedback (Weak, Fair, Good, Strong).
-   - Realistic Google OAuth Modal (`GoogleAuthModal.tsx`): Authentic Google popup with multi-color 
-     logo, account picker, custom email entry, and official permissions consent screen.
-   - Invalid Account Handling: Shows explicit "No account found with this email" error with 
-     a 1-click switch to pre-fill the email in the Create Account tab.
+2. Auth System (`/login`, `/signup`, `/auth`):
+   - Real account creation with Name, Email, Password, and Confirm Password.
+   - Real-time password match message ("Passwords match correctly").
+   - 4-bar Password strength meter.
+   - Realistic Google sign-in modal with permissions screen.
+   - WhatsApp-style circular profile avatar with user's 1st letter and dynamic colors.
 
-3. PROFILE AVATAR SYSTEM (WhatsApp-Style Initials)
-   - Function: `getFirstLetter(name)` & `getAvatarTheme(name)` in `src/utils/utils.ts`.
-   - Generates vibrant, circular avatars displaying the user's capitalized first initial.
-   - Uses 8 deterministic gradient themes based on ASCII character hashing.
-   - Integrated into Navbar, Profile Dropdown, Dashboard greeting, and Media contributor badges.
+3. Profile Dropdown & "Home Page" Link:
+   - Available on top-right navbar. Contains Dashboard, Create Event, Sign Out, 
+     and a dedicated "Home Page" link so users can go back to `/` anytime.
 
-4. USER PROFILE DROPDOWN & NAVIGATION
-   - Located in the top right navbar.
-   - Direct link to "Dashboard" (`/dashboard`).
-   - Dedicated "Home Page" link with Home icon directly beneath Dashboard so logged-in users 
-     can navigate back to `/` at any time.
-   - "Sign Out" button that clears active session tokens and local user storage.
+4. Host Dashboard (`/dashboard`):
+   - Command center for event hosts to see events, photo counts, and storage used.
 
-5. HOST COMMAND DASHBOARD (`/dashboard`)
-   - Protected route (`ProtectedRoute` guard).
-   - KPI Metrics: Active Events, Total Photos, Total Guests, Cloud Storage Meter.
-   - Event Cards: Event status badges (Active, Expiring Soon), date, venue, direct gallery links.
-   - Quick Action: Floating "Create New Event" button.
+5. Create Event (`/create-event`):
+   - 3-step easy form: Event name, date, venue, category, privacy (public/password), 
+     and contributor upload permissions.
 
-6. EVENT CREATION WIZARD (`/create-event`)
-   - Step 1 (Event Details): Title, Category (Wedding, College Fest, Birthday, Party, Corporate),
-     Venue, Date & Time picker, Description.
-   - Step 2 (Cover Image & Theme): Preset high-res curated covers or custom upload.
-   - Step 3 (Governance & Privacy): Public, Unlisted, or Password-Protected; Contributor rules 
-     (Allow open uploads vs. Require Host Approval).
+6. Event Gallery (`/event/:id`):
+   - Full event gallery with Pinterest-style masonry grid, fullscreen lightbox viewer, 
+     albums tab, live upload zone, contributor list, and download analytics.
+   - "People in this Event" face avatar bar to filter photos by a person with one click.
 
-7. EVENT GALLERY PAGE (`/event/:id`)
-   - 5 Dynamic Tabs:
-     • Gallery: Virtualized Pinterest-style masonry grid and square grid. Fullscreen Lightbox.
-     • "People in this Event" Filter Bar: Google/Apple Photos style circular face avatars 
-       at the top of the gallery for 1-click filtering by specific people!
-     • Albums: Auto-categorized sub-albums (e.g. Sangeet, Haldi, Stage Events, Crowd, Sports).
-     • Upload Zone: Multi-file drag-and-drop with client-side thumbnail generation and progress bars.
-     • Contributors: Leaderboard of top photo contributors with upload counts.
-     • Analytics: Live charts showing view counts, downloads, and activity timeline.
+7. Find My Photos (`/event/:id/find-my-photos`):
+   - Selfie scanner that returns all matched photos ranked by similarity percentage.
 
-8. AI FACE MATCHER ("Find My Photos") (`/event/:id/find-my-photos`)
-   - The flagship innovation of the project!
-   - Camera Capture / File Upload for selfie input.
-   - Multi-scale TinyFaceDetector + SSD MobileNet V1 models run on client's WebGL canvas.
-   - Displays all matching photos ranked by confidence percentage (e.g., 94% Match, 88% Match).
-   - "Download All My Photos" one-click action.
+8. Global "Find My Photos" Hub (`/find-my-photos`):
+   - Global discovery page from the footer. Guests can enter an event code/PIN 
+     or click one-tap sample demo events to start face matching.
 
-9. GLOBAL "FIND MY PHOTOS" HUB (`/find-my-photos`)
-   - Accessible globally from the footer.
-   - Lets guests search their event by code or title (e.g., `karan-riya`, `fest2026`).
-   - 1-Click Launch Cards for live demo events (Karan & Riya Wedding, TSDC Fest 2026).
-   - Explains the 3-step privacy-safe face matching workflow.
+9. Pricing Section (`/#pricing`):
+   - 3 clear tiers: Free Starter (₹0), Pro Celebration (₹499), Studio & Agency (₹999).
 
-10. DOWNLOAD CENTER (`/event/:id/downloads`)
-    - Selective checkbox multi-download.
-    - Full album ZIP packaging using client-side JSZip.
-    - Resolution selector (Full Original RAW vs. Web-Optimized HD).
-
-11. EVENT SETTINGS & GOVERNANCE (`/event/:id/settings`)
-    - Host-only controls: Toggle AI face matching on/off, change privacy mode, regenerate QR code,
-      manage contributor requests, and Danger Zone (Delete Event with verification).
-
-12. COMPLETE FOOTER & DEDICATED COMPANY PAGES
-    - About Us (`/about`): Founder story by Kishan Yadav, 4 Pillars, Tech Architecture.
-    - Blog & Guides (`/blog`): 4 technical articles, category filter, live search, Reader Modal.
-    - Careers (`/careers`): 4 open engineering/design jobs, perks, interactive "Apply Now" modal.
-    - Contact Us (`/contact`): Direct email, WhatsApp hotline, 2-hour SLA, interactive FAQ accordion.
+10. Company & Support Pages:
+    - About Us (`/about`): Story of SnapMemory, Founder note (Kishan Yadav), 4 core pillars.
+    - Blog (`/blog`): 4 detailed event & AI articles, search bar, and reader modal.
+    - Careers (`/careers`): 4 open jobs with perks and interactive "Apply Now" application modal.
+    - Contact Us (`/contact`): Direct email, WhatsApp hotline, contact form, and FAQ accordion.
     - Legal Center (`/privacy`, `/terms`, `/cookies`, `/gdpr`): Unified 4-tab legal hub covering 
       facial biometrics safety, copyright retention, cookie details, and GDPR data erasure.
-    - Auto-Scroll (`ScrollToTop`): Smooth scrolling for anchor links (`#features`, `#pricing`) 
-      and automatic top-scroll on page transitions.
 
 ================================================================================
-📌 SECTION 5: AI FACE RECOGNITION DEEP DIVE (Examiner's Most Technical Questions)
-================================================================================
-Teacher puchega: "How does the AI face matching actually work under the hood?"
-Answer in 6 crystal-clear technical steps:
-
-Step 1: Local Model Loading (`public/models/`)
-- Humne weights ko `public/models/` me locally store kiya hai:
-  • `ssd_mobilenetv1_model` (Accurate face bounding box localization)
-  • `face_landmark_68_model` (68 anatomical landmark points)
-  • `face_recognition_model` (ResNet-34 based 128-D descriptor extractor)
-- Models locally serve hote hain (0ms latency, zero CORS failures, zero external API cost).
-
-Step 2: Face Detection & Scaling
-- Selfie image par `detectSingleFace` ya `detectAllFaces` run hota hai.
-- Multi-scale pyramid analysis (416px, 512px, 320px, 224px) use hoti hai taaki door khade 
-  ya low-light chehre bhi detect ho sakein.
-- Agar multiple faces hain, toh area calculation `(width * height)` se primary selfie 
-  face isolate hota hai.
-
-Step 3: 68-Point Facial Landmark Alignment
-- Chehre ke 68 specific anatomical points extract hote hain:
-  • Points 1-17: Jawline contour
-  • Points 18-27: Eyebrows
-  • Points 28-36: Nose bridge and tip
-  • Points 37-48: Eyes (eye corners and pupils)
-  • Points 49-68: Outer and inner lip boundaries
-- Image ko affine transformation se standardize kiya jata hai (rotate/align straight).
-
-Step 4: 128-Dimensional Embedding Extraction
-- Pre-aligned face patch ko deep neural network (ResNet architecture) me pass kiya jata hai.
-- Output hota hai ek Float32Array of length 128 (128-D Feature Vector).
-- Har number chehre ke unique mathematical features represent karta hai.
-
-Step 5: Euclidean Distance Comparison
-- Guest ki selfie ke descriptor (Vector A) aur gallery photo ke descriptor (Vector B) 
-  ke beech mathematical Euclidean Distance ($d$) calculate hoti hai:
-  
-      d(A, B) = sqrt( sum_{i=1}^{128} (A_i - B_i)^2 )
-
-- Rule:
-  • Agar $d < 0.60$: Chehra MATCH ho gaya!
-  • Match Confidence = max(0, min(100, (1 - d) * 100)) %
-  • E.g., distance 0.25 = 75% match, distance 0.12 = 88% match.
-
-Step 6: Biometric Privacy by Design (GDPR Compliant)
-- Sabhi matrix operations client-side browser RAM (WebGL) me hote hain.
-- Raw selfie server par transmit nahi hoti.
-- Search khatam hote hi Float32Array memory se purge ho jati hai.
-
-================================================================================
-📌 SECTION 6: DATABASE SCHEMA (PostgreSQL & Supabase Architecture)
-================================================================================
-Examiner puche: "Show your database tables and relationships":
-
-1. `users`:
-   - `id` (UUID, Primary Key)
-   - `name` (TEXT), `email` (TEXT, Unique), `password_hash` (TEXT)
-   - `avatar_url` (TEXT), `created_at` (TIMESTAMP)
-
-2. `events`:
-   - `id` (UUID, PK), `owner_id` (UUID -> users.id)
-   - `title` (TEXT), `type` (TEXT: Wedding, College, etc.), `date` (TIMESTAMP)
-   - `location` (TEXT), `cover_url` (TEXT), `privacy` (TEXT: public, password, unlisted)
-   - `password_hash` (TEXT, Nullable), `allow_contributor_requests` (BOOLEAN)
-   - `expiry_at` (TIMESTAMP), `created_at` (TIMESTAMP)
-
-3. `albums`:
-   - `id` (UUID, PK), `event_id` (UUID -> events.id)
-   - `name` (TEXT), `description` (TEXT), `cover_url` (TEXT), `visibility` (TEXT)
-
-4. `media`:
-   - `id` (UUID, PK), `event_id` (UUID -> events.id), `album_id` (UUID -> albums.id)
-   - `uploader_id` (UUID -> users.id, Nullable for anonymous guests)
-   - `url` (TEXT), `thumbnail_url` (TEXT), `preview_url` (TEXT)
-   - `filename` (TEXT), `size` (INT), `width` (INT), `height` (INT)
-   - `mime_type` (TEXT), `is_video` (BOOLEAN), `created_at` (TIMESTAMP)
-
-5. `face_embeddings`:
-   - `id` (UUID, PK), `media_id` (UUID -> media.id)
-   - `embedding` (FLOAT8[] - 128 elements vector)
-   - `bounding_box` (JSONB: x, y, width, height)
-   - `created_at` (TIMESTAMP)
-
-6. `event_members` (Role-Based Access Control):
-   - `id` (UUID, PK), `event_id` (UUID), `user_id` (UUID)
-   - `role` (TEXT: 'owner', 'co-host', 'contributor', 'viewer')
-
-================================================================================
-📌 SECTION 7: TOP 25 VIVA & EXAM QUESTIONS (Direct High-Scoring Answers)
+📌 PART 7: TOP 20 VIVA QUESTIONS (Direct & Natural Student Answers)
 ================================================================================
 
-Q1: What is the main problem SnapMemory solves?
-Ans: SnapMemory eliminates fragmented and compressed photo sharing in social events. 
-It replaces messy WhatsApp groups and permission-heavy Google Drives with zero-friction 
-QR code access, lossless full-resolution storage, and instant AI face retrieval.
+Q1: What is the USP (Unique Selling Point) of SnapMemory?
+Ans: "Sir, three main USPs: 1) Zero-app-install QR code access, 2) 100% original lossless 
+photo quality, and 3) In-browser AI face search that protects guest privacy."
 
-Q2: Why did you choose React 19 over older versions or vanilla JS?
-Ans: React 19 introduces automated memoization, concurrent transitions, actions, 
-and improved server/client streaming. It delivers superior rendering performance 
-for large virtualized media grids containing hundreds of photos.
+Q2: Is the AI running on your server or on the user's phone/laptop?
+Ans: "It runs completely in the user's browser using WebGL and WebAssembly via face-api.js. 
+This means zero server AI compute cost and 100% biometric privacy for guests."
 
-Q3: What is the difference between client-side and server-side face recognition?
-Ans: Server-side AI requires uploading user selfies to cloud servers, consuming heavy GPU 
-compute costs and creating severe privacy liabilities. Client-side AI (our approach) runs 
-inside the user's browser via WebAssembly and WebGL. It is 100% private, zero-cost to host, 
-and delivers instantaneous feedback.
+Q3: What models are you using for face matching?
+Ans: "We use SSD MobileNet V1 and TinyFaceDetector for finding faces, FaceLandmark68Net 
+for 68 facial points, and FaceRecognitionNet for the 128-D embeddings."
 
-Q4: What is face-api.js and which models are you using?
-Ans: face-api.js is a JavaScript implementation of deep convolutional neural networks 
-built on TensorFlow.js. We use TinyFaceDetector / SSD MobileNet V1 for face bounding box 
-detection, FaceLandmark68Net for alignment, and FaceRecognitionNet for generating 128-D descriptors.
+Q4: What if two people look similar, like brothers or twins?
+Ans: "The neural network analyzes 128 micro-features. We also display a confidence 
+percentage so guests can see which photos have a 90%+ match versus borderline matches."
 
-Q5: What is Euclidean Distance and how is it used here?
-Ans: Euclidean distance is the geometric straight-line distance between two points in 
-Euclidean space. In our project, it calculates the difference between two 128-dimensional 
-vectors. A distance below 0.60 indicates the two faces belong to the same person.
+Q5: What happens if lighting is poor or the photo is blurry?
+Ans: "We implemented a multi-scale fallback in `faceMatcher.ts`. The detector resizes 
+and tries different resolutions (416px, 512px, 320px) and picks the best face bounding box."
 
-Q6: How do guests upload photos without logging in?
-Ans: The event QR code contains a unique, cryptographically secure Event ID. Guests scan the 
-code to open the event in their mobile browser, uploading photos directly to that event's 
-public contribution endpoint without having to fill out a registration form.
+Q6: How do guests upload photos if they don't have an account?
+Ans: "Each event has a unique encrypted Event ID in the QR code. Guests open the link 
+and can drop photos directly into that specific event's upload queue without registration."
 
-Q7: What is Zustand and why did you choose it over Redux?
-Ans: Zustand is a minimalist state-management library. Unlike Redux, it has zero boilerplate, 
-does not require wrapping the app in context providers, has no reducer ceremony, and has a 
-tiny bundle size (~1.2KB vs Redux's ~10KB+).
+Q7: What is the difference between Zustand and Redux?
+Ans: "Zustand is modern and very lightweight (around 1KB), with almost no boilerplate code. 
+Redux requires complex reducers, dispatchers, and extra setup for the same result."
 
-Q8: How does your authentication work?
-Ans: SnapMemory features a dual-mode Auth system: standard email/password registration with 
-real-time match validation, a 4-level strength meter, and an authentic Google OAuth modal. 
-Active sessions are maintained securely with token persistence and role-based access.
+Q8: Why did you use TypeScript instead of plain JavaScript?
+Ans: "TypeScript provides static type checking. In large projects with photos, albums, 
+and user objects, it prevents bugs like accessing undefined properties during runtime."
 
-Q9: What are WhatsApp-style profile avatars in your project?
-Ans: Instead of static placeholder images, our system dynamically extracts the user's first 
-initial via `getFirstLetter(name)` and computes a deterministic color palette from 8 gradient 
-themes using character code hashing.
+Q9: What database are you using?
+Ans: "We designed a PostgreSQL schema hosted on Supabase, with tables for users, events, 
+albums, media items, and face descriptors, protected by Row Level Security (RLS)."
 
-Q10: What happens if an image fails to load or an external CDN returns 404?
-Ans: Every `<img>` tag is wrapped with an `onError` event handler that swaps any broken link 
-with a verified, high-definition local fallback, preventing broken image placeholders.
+Q10: How do you prevent offensive photos from being uploaded?
+Ans: "Event hosts can turn on 'Contributor Approval Mode'. In this mode, guest photos 
+go into a review queue and only show in the public gallery after the host approves them."
 
-Q11: How do you handle large image uploads without freezing the UI?
-Ans: Uploads are processed asynchronously using Web Workers for thumbnail generation and 
-virtualized rendering (`@tanstack/react-virtual`), keeping DOM nodes minimal and framerates at 60fps.
+Q11: Can a private event be protected with a password?
+Ans: "Yes, hosts can set their event to 'Password-Protected'. Guests must enter a 4-to-6 
+digit PIN before the gallery unlocks."
 
-Q12: What security measures prevent strangers from accessing private events?
-Ans: Hosts can configure events as 'Password-Protected' or 'Unlisted'. Password-protected 
-events require a 4-to-6 digit PIN before media decryption or gallery rendering occurs.
+Q12: How does your Download Center work?
+Ans: "Guests can select specific photos with checkboxes or click one button to download 
+the entire album packed into a ZIP file generated on the fly."
 
-Q13: How is GDPR compliance handled regarding facial biometrics?
-Ans: We follow 'Privacy by Design'. Facial embeddings are generated in transient client RAM 
-and never stored on server disks. Furthermore, our Legal Center features an explicit 'Right to 
-Erasure' (Forget Me) workflow where users can delete all uploaded media.
+Q13: What happens if an image link fails or external CDN goes down?
+Ans: "Every photo image tag has an `onError` fallback handler. If an image link fails, 
+it automatically replaces it with a clean local backup photo so there are no broken icons."
 
-Q14: What is the purpose of the new "Find My Photos Hub" (`/find-my-photos`)?
-Ans: It serves as a global discovery portal. Guests who arrive via the website footer or 
-direct URL can search any event by code/PIN or launch instant face recognition on demo events.
+Q14: How does your new multi-user authentication work?
+Ans: "Users can register with their own name, email, and password with real-time match 
+validation and strength feedback. We also built an authentic Google OAuth consent modal."
 
-Q15: What pricing model have you implemented in the project?
-Ans: We implemented a 3-tier freemium model: Free Starter (₹0 for intimate parties), Pro 
-Celebration (₹499 with AI face recognition), and Studio & Agency (₹999 for full event coverage).
+Q15: What are the WhatsApp-style avatars in your project?
+Ans: "Instead of generic grey pictures, the app takes the user's first letter and gives 
+it a stylish colored circular background based on the user's name."
 
-Q16: How do you prevent stale caching issues when deploying new versions to Vercel?
-Ans: We configured explicit cache-control headers in `vercel.json` (`no-cache, no-store, 
-must-revalidate` for `index.html`), ensuring client browsers immediately fetch the latest bundle.
+Q16: How is this website responsive on mobile phones?
+Ans: "We used Tailwind CSS mobile-first responsive breakpoints (`sm:`, `md:`, `lg:`). 
+The navigation collapses into a mobile drawer, and photos switch from 4 columns to 2 columns."
 
-Q17: What is a Progressive Web App (PWA) and why is it better than a Native App here?
-Ans: A PWA runs directly inside mobile web browsers with native-like capabilities (camera 
-access, full-screen, offline cache). For one-time events, guests are 10x more likely to scan 
-a QR code than install a 50MB app from the Play Store.
+Q17: How did you fix stale caching on Vercel?
+Ans: "We added `no-cache, no-store, must-revalidate` headers in `vercel.json` for HTML files. 
+Whenever we push new code to GitHub, browsers immediately load the latest version."
 
-Q18: What is the purpose of the Download Center (`/downloads`)?
-Ans: It allows attendees and hosts to perform selective multi-photo downloads or download an 
-entire event album as a single, compressed ZIP file without manual individual saves.
+Q18: What is PWA and why did you choose it over an Android APK?
+Ans: "A Progressive Web App runs directly in Chrome/Safari without downloading an APK. 
+At a wedding or fest, guests will easily scan a QR code, but they won't install a 50MB app."
 
-Q19: What role-based permissions exist in the platform?
-Ans: Three tiers: 
-1. Host/Owner (Full administrative rights, event settings, deletion).
-2. Contributor (Approved uploaders, album creators).
-3. Guest/Viewer (Browsing, downloading, selfie matching).
+Q19: What is EXIF metadata?
+Ans: "EXIF data contains camera details, ISO, and original capture time. Chat apps delete 
+this data, but SnapMemory keeps it so photos can be arranged in exact chronological order."
 
-Q20: How do you prevent offensive or trolling photos from appearing in the gallery?
-Ans: Hosts can enable 'Contributor Approval Mode'. All guest uploads enter a moderation 
-staging queue in the Host Dashboard and only go live after the host clicks 'Approve'.
-
-Q21: What is EXIF data and why is preserving it important?
-Ans: EXIF (Exchangeable Image File Format) stores metadata such as camera model, focal length, 
-ISO, and capture timestamp. Messaging apps strip this; SnapMemory preserves it so albums can 
-be accurately sorted chronologically.
-
-Q22: What are the key performance metrics of the app?
-Ans: Build time is 1.19s, bundle gzip size is ~570KB, face landmark extraction takes ~120ms 
-on standard mobile chipsets, and gallery masonry maintains 60 FPS scrolling.
-
-Q23: What database indices are created for fast searching?
-Ans: B-Tree indices on `events(id)`, `media(event_id)`, `albums(event_id)`, and composite 
-indices on `(event_id, created_at)` for instant chronological feed queries.
-
-Q24: What were the major technical challenges faced during development?
-Ans: 
-1. Running heavy neural models inside mobile browsers without memory leaks (resolved via 
-   model quantization and input size downsizing to 320/416px).
-2. Cross-browser canvas CORS headers when fetching remote images (resolved via local-first 
-   model serving in `public/models/`).
-3. Handling multi-scale face detection for distant faces in crowd shots.
-
-Q25: What is the future scope of SnapMemory?
-Ans: 
-1. Real-time video face detection for ceremony recordings.
-2. Automated duplicate & blurry photo culling using perceptual hashing.
-3. Live HDMI/Chromecast slideshow stream for wedding projector screens.
+Q20: What are your future plans for SnapMemory?
+Ans: "We plan to add video face recognition for ceremony clips, automatic duplicate photo 
+detection, and a live slideshow mode for projector screens during the event."
 
 ================================================================================
-📌 SECTION 8: EXAM DAY CHECKLIST & IMPORTANT DETAILS
+📌 PART 8: EXAM DAY DETAILS (Important Info to Keep in Mind)
 ================================================================================
-• College: Thakur Shyamnarayan Degree College (TSDC), Kandivali (E), Mumbai
+• College: Thakur Shyamnarayan Degree College (TSDC), Kandivali (East), Mumbai
 • University: University of Mumbai
-• Degree: T.Y. B.Sc. Computer Science, Semester V (A.Y. 2026-2027)
-• Project Title: SnapMemory: AI-Powered Smart Event Media Sharing Platform
-• Project Partners:
-  1. Kishan Yadav (Seat/Roll No: 202403150)
-  2. Shivam Yadav (Seat/Roll No: 202403149)
+• Course: T.Y. B.Sc. Computer Science (Semester V, A.Y. 2026-2027)
+• Project Title: SnapMemory — AI-Powered Smart Event Media Sharing Platform
+• Team Members:
+  1. Kishan Yadav  (Roll No: 202403150)
+  2. Shivam Yadav  (Roll No: 202403149)
 
-• Live Demo URL: https://snapmemory.vercel.app/
-• GitHub Repo:   https://github.com/kishan0701/snapmemory.git
+• Live Website: https://snapmemory.vercel.app/
+• GitHub Repo:  https://github.com/kishan0701/snapmemory.git
 
-💡 GOLDEN TIP FOR VIVA:
-Jab examiner puche "Live project dikhao":
-1. Open https://snapmemory.vercel.app/ in Chrome.
-2. Dikhao: "Sir, this is the landing page with 120+ events, 450+ photos."
-3. Click "Demo" ya "Karan & Riya Wedding" -> Dikhao: "Here are the photos organized into albums."
-4. Click "Find My Photos" -> Selfie upload karke dikhao: "See, in 1.5 seconds it matched all 
-   photos of this person using browser-based neural network!"
-5. Dikhao profile dropdown me "Home Page" link, WhatsApp-style initials avatar, aur Auth modal.
-Examiner 100% full marks dega!
+💡 GOLDEN TIP FOR VIVA PRESENTATION:
+1. Don't speak like a robot or read from a book.
+2. Speak calmly and smile: "Sir, let me show you the live website..."
+3. Show the QR scan concept, then show the AI face matching with a selfie.
+4. When examiner sees AI finding matching photos in 2 seconds right in front of them, 
+   they will be genuinely impressed!
 
 ================================================================================
-                         BEST OF LUCK, KISHAN & SHIVAM! 🚀🎓
+                    BEST OF LUCK, KISHAN & SHIVAM! PHOD KE AANA! 🚀💯
 ================================================================================
