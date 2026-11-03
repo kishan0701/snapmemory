@@ -1,0 +1,296 @@
+================================================================================
+                         PROJECT SYNOPSIS & VIVA GUIDE
+              T.Y.B.Sc. Computer Science - Semester V (A.Y. 2026–2027)
+                         University of Mumbai
+            Thakur Shyamnarayan Degree College (TSDC), Kandivali (East)
+================================================================================
+
+1. TITLE
+--------------------------------------------------------------------------------
+Project Title:
+SnapMemory: AI-Powered Smart Event Media Sharing & Intelligent Face-Recognition 
+Retrieval Platform
+
+Academic Details:
+- Class: T.Y.B.Sc. Computer Science, Semester V
+- Academic Year: 2026–2027
+- University: University of Mumbai
+- College: Thakur Shyamnarayan Degree College (TSDC), Kandivali (East), Mumbai – 400101
+- Project Team:
+    1. Kishan Yadav  (Roll No: 202403150)
+    2. Shivam Yadav  (Roll No: 202403149)
+- Guide: Asst. Prof. [Faculty Project Guide]
+- Live Application URL: https://snapmemory.vercel.app/
+- Source Code Repository: https://github.com/kishan0701/snapmemory.git
+
+
+2. INTRODUCTION / BACKGROUND
+--------------------------------------------------------------------------------
+In personal, academic, and social gatherings (such as college annual festivals, 
+weddings, birthdays, seminars, and corporate celebrations), hundreds to thousands 
+of high-resolution photographs and videos are captured. However, distributing 
+these memories back to the guests remains a chaotic, slow, and frustrating process.
+
+Currently, organizers and attendees rely on two common channels:
+1. Instant Messaging (e.g., WhatsApp Groups):
+   - Causes heavy lossy compression, degrading DSLR photo quality.
+   - Strips away original EXIF metadata (timestamps, camera details).
+   - Severe privacy risk: Everyone's private phone number is exposed to hundreds 
+     of unfamiliar group members.
+2. Cloud Storage Drives (e.g., Google Drive, Dropbox):
+   - Cumbersome permission barriers ("Request Access" friction).
+   - No interactive community feed or live uploads from multiple guests.
+   - Finding your own pictures requires manually scrolling through 1,000+ files.
+
+SnapMemory solves this problem by providing a modern, zero-install web application. 
+Guests simply scan a table QR code to open the event gallery, upload in original 
+lossless quality, and use an integrated Client-Side AI Face Matcher to locate all 
+their photos in under 2 seconds by uploading a single selfie.
+
+
+3. PROBLEM STATEMENT AND MOTIVATION
+--------------------------------------------------------------------------------
+Problem Statement:
+There is no unified, privacy-first, zero-install web platform that allows event 
+organizers to crowd-source high-fidelity event photos while enabling guests to 
+instantly retrieve only the pictures they appear in without downloading heavy mobile 
+apps or exposing their biometric data to centralized servers.
+
+Motivation:
+1. Zero App Download Friction:
+   Event attendees do not want to download a 60 MB mobile app from Google Play 
+   Store for a 3-hour college event or wedding. SnapMemory works instantly on any 
+   mobile browser via a dynamic QR code.
+2. Lossless Quality Preservation:
+   Event photographers shoot in 4K/RAW/HD. Traditional chat apps compress images 
+   by up to 80%. SnapMemory preserves the original resolution and color depth.
+3. Edge AI & Biometric Privacy:
+   Uploading guests' biometric facial data to cloud servers creates legal and 
+   privacy hazards. SnapMemory performs deep learning face embeddings directly in 
+   the user's browser (Edge AI). No personal facial scan ever leaves the device.
+4. Granular Host Control & Moderation:
+   Organizers need to moderate what gets posted at college festivals or family 
+   events. SnapMemory gives hosts an approval queue for contributor uploads, 
+   download permission toggles, and live event telemetry.
+5. Practical Real-World Application:
+   This project allows us to apply modern Reactive Frontend Architecture (React 18, 
+   TypeScript), Database Management (Supabase PostgreSQL), Cloud Storage, and 
+   Browser Computer Vision to solve a universal real-world problem.
+
+
+4. OBJECTIVES AND SCOPE
+--------------------------------------------------------------------------------
+Objectives:
+1. Build an intuitive, responsive web application for hosts to create, customize, 
+   and govern event media galleries.
+2. Generate automatic high-resolution vector QR codes for instant event joining.
+3. Implement a client-side AI face recognition engine that matches user selfies 
+   against event photos using 128-dimensional facial vectors and Euclidean distance.
+4. Provide a Pinterest-style Masonry and Grid photo gallery with fullscreen Lightbox 
+   inspection, touch gestures, and keyboard navigation.
+5. Provide a multi-file drag-and-drop upload zone with client-side validation and 
+   real-time upload progress indicators.
+6. Create a Host Administration Dashboard to review contributor requests, manage 
+   albums, monitor cloud storage usage, and inspect view/download telemetry.
+7. Implement an asynchronous batch Download Center to export individual photos, 
+   selected media sets, or complete full-resolution ZIP archives.
+
+Scope (Included in Project):
+- Dynamic Event Wizard (Title, Date, Venue, Cover image, Privacy tiers: Public / 
+  Password-Protected / Private).
+- Instant QR Code Generation & one-click download/print for event entrance displays.
+- High-performance Gallery with Masonry / Grid view, category tabs, and search.
+- Client-Side AI "Find My Photos" selfie scanner with similarity percentage ranking.
+- Contributor Approval Pipeline (Pending, Approved, Rejected workflows).
+- Real-time Host Telemetry (Total visitors, photos, downloads, cloud storage used).
+- Fullscreen Lightbox viewer with download, favorite, and share features.
+- Download Center with multi-select and batch ZIP compression (JSZip).
+- Multi-User Authentication (Email/Password with 4-level strength meter + simulated 
+  OAuth modal) and local profile avatar state.
+- Complete public pages: About Us, Blog, Careers, Contact Us, and Legal Center 
+  (Privacy Policy, Terms of Service, Cookies, GDPR).
+
+Out of Scope (Future Enhancements):
+- Native Android / iOS applications published to Google Play / Apple App Store.
+- Automated real-time facial recognition inside long-duration 4K video streams.
+- Integrated commercial payment gateway (e.g. Razorpay/Stripe) for paid photo sales.
+- Live drone camera feed direct ingest into event storage buckets.
+
+
+5. SYSTEM ARCHITECTURE
+--------------------------------------------------------------------------------
+SnapMemory is built upon a modern Three-Tier Client-Cloud Reactive Architecture:
+
+1. Presentation Tier (Frontend):
+   - Framework & Language: React 18 with TypeScript for component-based modularity 
+     and strict compile-time type safety.
+   - Styling & UI: Tailwind CSS with dark-mode neon purple aesthetic, glassmorphism 
+     (backdrop-blur), and Lucide React modern iconography.
+   - Routing: React Router DOM (v7) managing protected host paths and public QR routes.
+   - Animation & Transitions: Smooth UI micro-interactions using Framer Motion.
+   - Edge Computer Vision: HTML5 Canvas API and client-side deep neural network 
+     inference for facial landmark detection and Euclidean distance matching.
+   - Build System: Vite 8 for fast Hot Module Replacement (HMR) and optimized bundles.
+
+2. Application / Logic Tier (Middleware & Services):
+   - Service Layer: Abstracted API service layer (`src/services/api.ts`, 
+     `src/services/supabase.ts`, `src/services/storage.ts`).
+   - Resilient Dual-Mode Design: Connects to live Supabase cloud backend when API keys 
+     are present, with an automatic, zero-crash local mock fallback for offline viva demos.
+   - Client-Side Compression & Archiving: JSZip & FileSaver libraries for creating 
+     multi-image ZIP packages directly inside the browser.
+   - State Management: Custom React hooks (`useEvents`, `useMedia`, `useAuth`, 
+     `useLocalStorage`) providing predictable, reactive data flow.
+
+3. Data Tier (Database & Cloud Storage):
+   - Relational Database: Supabase PostgreSQL 15 storing:
+     * `users`: Host and guest profiles, authentication credentials.
+     * `events`: Event titles, slugs, dates, venues, privacy settings.
+     * `albums`: Categorized sub-folders (Ceremony, Reception, Cultural, Sports).
+     * `media`: Photo/video URLs, thumbnail URLs, EXIF metadata, timestamps.
+     * `contributors`: Upload requests and host permission status.
+     * `analytics`: Unique view counters, download logs, bandwidth metrics.
+   - Blob Storage: Supabase Storage Buckets storing original high-resolution assets 
+     and optimized CDN thumbnails.
+
+System Flow:
+[Guest Scans QR Code] 
+        ↓
+[React Browser Client opens Event Page (/e/evt-slug)]
+        ↓
+[Service Layer validates event access & permissions]
+        ↓
+[Supabase DB / Local Cache returns categorized media & albums]
+        ↓
+[Guest clicks "Find My Photos" & takes Selfie]
+        ↓
+[Browser executes Edge AI Facial Inference locally (128-D vectors)]
+        ↓
+[Photos matching Euclidean distance threshold displayed instantly with % score]
+        ↓
+[Guest downloads single photo or generates batch ZIP via JSZip]
+
+User Roles:
+1. Event Host / Admin: Creates events, customizes settings, approves/rejects 
+   contributors, deletes unwanted photos, views analytics.
+2. Approved Contributor: Guests with upload privileges who can add photos/videos 
+   to the shared event stream.
+3. Guest Attendee: Regular visitors who scan QR to browse, search by selfie, and 
+   download photos without registration friction.
+
+Security & Privacy Layer:
+- Edge Biometric Privacy: Face recognition is 100% client-side; user selfies are 
+  never sent to or stored on any central server.
+- Role-Based Access Control (RBAC): Sensitive actions (event editing, contributor 
+  approval, photo deletion) are restricted to the verified event host.
+- Password Security: Multi-level password entropy scoring with real-time feedback.
+- Sanitized input and parameterized database calls to prevent SQL injection & XSS.
+
+
+6. HARDWARE AND SOFTWARE REQUIREMENTS
+--------------------------------------------------------------------------------
+Hardware Requirements:
+- Processor: Intel Core i3 (7th Gen or higher) / AMD Ryzen 3 or equivalent.
+- RAM: Minimum 4 GB (8 GB recommended for concurrent multi-image rendering).
+- Storage: 10 GB free hard disk space.
+- Input Devices: Standard keyboard, mouse, and camera/webcam (for QR scanning 
+  and selfie capture).
+- Display: 1366x768 resolution minimum (Fully responsive down to 360px mobile).
+- Internet Connection: Required for cloud sync and live Vercel access; offline 
+  local execution supported for viva backup.
+
+Software Requirements:
+- Operating System: Windows 10/11, macOS, Linux, Android, or iOS.
+- Front End: React 18, TypeScript, Tailwind CSS, Lucide React, HTML5 Canvas API.
+- Runtime Environment: Node.js (v18.0.0 or higher), pnpm package manager.
+- Build Tool: Vite 8.
+- Back End: Supabase REST API & Edge Functions / Node.js.
+- Database: Supabase PostgreSQL 15 (with local storage mock fallback).
+- Libraries: `jszip` (batch download), `file-saver`, `canvas-confetti`.
+- Code Editor: Visual Studio Code.
+- Web Browser: Google Chrome, Microsoft Edge, Mozilla Firefox, or Safari.
+- Hosting & Deployment: Vercel (CI/CD connected to GitHub `origin main`).
+
+
+7. EXPECTED OUTCOME
+--------------------------------------------------------------------------------
+1. A fully functioning, live cloud-deployed web prototype of SnapMemory accessible 
+   on smartphones, tablets, and laptops at: https://snapmemory.vercel.app/
+2. Frictionless QR onboarding allowing event guests to join and contribute media 
+   within 5 seconds of scanning.
+3. High-accuracy AI Face Recognition that filters hundreds of event photos to find 
+   a specific attendee's photos in under 2 seconds directly in the browser.
+4. Zero-loss media archiving that preserves full camera resolution and metadata.
+5. An intuitive Host Dashboard featuring real-time event analytics, storage tracking, 
+   and contributor moderation controls.
+6. A responsive, modern dark-mode user interface adhering to industry UI/UX standards.
+7. A strong technical foundation prepared for future expansions like commercial 
+   monetization, photo selling, and live-stream ingest.
+
+
+================================================================================
+          VIVA CHEAT-SHEET: TOP 10 QUESTIONS & DIRECT ANSWERS FOR EXAMINERS
+================================================================================
+
+Q1: What is the core problem SnapMemory solves?
+A1: "Sir/Madam, after weddings or college events, sharing photos through WhatsApp 
+    compresses image quality by 80% and leaks phone numbers in huge groups, while 
+    Google Drive makes guests scroll through 1,000+ photos to find themselves. 
+    SnapMemory solves this by offering instant QR access, original quality uploads, 
+    and client-side AI face recognition to find photos in 2 seconds."
+
+Q2: Why did you use Client-Side (Edge) AI instead of a Python/Flask server?
+A2: "Two critical reasons, Sir:
+    1. Privacy: User selfies never leave their phone or get stored on our server, 
+       avoiding biometric privacy violations.
+    2. Scalability & Cost: Performing AI inference in the user's browser offloads 
+       computation from the server, meaning our backend can handle thousands of 
+       guests simultaneously with zero GPU server costs."
+
+Q3: What technologies are used in the Frontend?
+A3: "We used React 18 with TypeScript for component-based architecture and strict 
+    type safety, Tailwind CSS for dark-mode glassmorphic styling, Lucide React for 
+    icons, and Vite 8 as the build tool for blazing fast performance."
+
+Q4: What backend and database did you choose?
+A4: "We used Supabase, which provides a managed PostgreSQL 15 database, secure 
+    authentication, and cloud storage buckets for media files. We also built an 
+    automatic fallback to local storage so the demo never fails even if internet 
+    is lost during the viva."
+
+Q5: How does the AI Face Recognition algorithm work?
+A5: "When a guest uploads a selfie, the model detects facial landmarks and generates 
+    a 128-dimensional biometric embedding vector. It then computes the Euclidean 
+    distance between this vector and the pre-analyzed vectors of event photos. 
+    Matches below a specific distance threshold are converted into similarity 
+    percentage scores and displayed instantly."
+
+Q6: How do QR codes work in your application?
+A6: "Each event has a unique slug and ID. The system generates a vector QR code 
+    containing the deep link (`https://snapmemory.vercel.app/e/:slug`). When a guest 
+    scans it with their phone camera, the browser immediately opens the event page 
+    without needing any app installation."
+
+Q7: How are photos protected from spam or unwanted uploads?
+A7: "SnapMemory has a Contributor Request Workflow. The host can set an event to 
+    'Contributor Approval Required'. Any photo uploaded by a guest enters a pending 
+    queue that only appears in the public gallery after the host approves it."
+
+Q8: How does the Download Center work for large galleries?
+A8: "Guests can download single images in full quality, or select multiple photos 
+    and click 'Download as ZIP'. We use the JSZip library to bundle the selected 
+    images into a compressed `.zip` archive directly in the browser."
+
+Q9: What security measures have you implemented?
+A9: "We implemented Role-Based Access Control (RBAC) so only hosts can edit events 
+    or delete media, client-side password entropy validation with strength meters, 
+    and sanitization of all event inputs to prevent XSS."
+
+Q10: Where is your project hosted?
+A10: "The source code is hosted on GitHub, and the frontend is continuously deployed 
+     on Vercel's global CDN at https://snapmemory.vercel.app/ with automatic CI/CD 
+     builds on every commit."
+
+================================================================================
+                      End of SnapMemory Project Synopsis
+================================================================================

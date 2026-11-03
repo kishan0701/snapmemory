@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SnapMemory - Project Synopsis (T.Y.B.Sc. Computer Science)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --accent: #8b5cf6;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --bg-card: #f8fafc;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--text);
+      background-color: #f1f5f9;
+      line-height: 1.6;
+      font-size: 14px;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 48px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid var(--border);
+    }
+
+    /* Print styling */
+    @media print {
+      body {
+        background: #ffffff;
+        padding: 0;
+      }
+      .container {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+        max-width: 100%;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+    }
+
+    .action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding: 12px 18px;
+      background: #e0e7ff;
+      border-radius: 8px;
+      color: var(--primary-dark);
+      font-weight: 500;
+    }
+
+    .btn-print {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+
+    .btn-print:hover {
+      background: var(--primary-dark);
+    }
+
+    .header-block {
+      text-align: center;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 28px;
+    }
+
+    .college-name {
+      font-size: 19px;
+      font-weight: 800;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .affiliation {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .address {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .badge-pill {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 9999px;
+      background: #ede9fe;
+      color: #6d28d9;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.3px;
+    }
+
+    .synopsis-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #1e1b4b;
+      margin: 16px 0 6px 0;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-top: 26px;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1.5px solid #e0e7ff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title span.number {
+      background: var(--primary);
+      color: white;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    p {
+      margin-bottom: 10px;
+      color: #334155;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 12px;
+      color: #334155;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+
+    .meta-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 20px 0;
+      font-size: 13px;
+    }
+
+    .meta-table th, .meta-table td {
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    .meta-table th {
+      background: var(--bg-card);
+      font-weight: 600;
+      color: #475569;
+      width: 25%;
+    }
+
+    .highlight-box {
+      background: #f5f3ff;
+      border-left: 4px solid var(--accent);
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 14px 0;
+      font-size: 13px;
+    }
+
+    .architecture-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 14px 0;
+    }
+
+    .arch-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .arch-card h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .arch-card p {
+      font-size: 12px;
+      color: #475569;
+      margin-bottom: 0;
+    }
+
+    .flow-step {
+      background: #faf5ff;
+      border: 1px dashed #c084fc;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #581c87;
+      margin: 12px 0;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+
+    .signatures {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .sig-col {
+      text-align: center;
+      width: 30%;
+    }
+
+    .sig-line {
+      border-top: 1px solid #94a3b8;
+      margin-top: 40px;
+      margin-bottom: 6px;
+    }
+
+    .sig-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="action-bar no-print">
+      <span>📄 Project Synopsis Ready for Viva & Evaluation</span>
+      <button class="btn-print" onclick="window.print()">
+        🖨️ Print / Save as PDF (Ctrl + P)
+      </button>
+    </div>
+
+    <!-- Header Section -->
+    <div class="header-block">
+      <div class="college-name">Zagdu Singh Charitable Trust's<br>Thakur Shyamnarayan Degree College (TSDC)</div>
+      <div class="affiliation">Affiliated to University of Mumbai | NAAC Accredited</div>
+      <div class="address">Thakur Complex, Kandivali (East), Mumbai – 400101</div>
+      <div class="badge-pill">T.Y.B.Sc. Computer Science • Semester V • A.Y. 2026–2027</div>
+      <h1 class="synopsis-title">SnapMemory Project Synopsis</h1>
+    </div>
+
+    <!-- 1. Title -->
+    <div class="section-title">
+      <span class="number">1</span>
+      Title & Project Identification
+    </div>
+
+    <table class="meta-table">
+      <tr>
+        <th>Project Title</th>
+        <td><strong>SnapMemory: AI-Powered Smart Event Media Sharing & Intelligent Face-Recognition Retrieval Platform</strong></td>
+      </tr>
+      <tr>
+        <th>Department & Course</th>
+        <td>T.Y.B.Sc. Computer Science (Semester V), University of Mumbai</td>
+      </tr>
+      <tr>
+        <th>Student Authors</th>
+        <td>
+          1. <strong>Kishan Yadav</strong> (Roll No: 202403150)<br>
+          2. <strong>Shivam Yadav</strong> (Roll No: 202403149)
+        </td>
+      </tr>
+      <tr>
+        <th>Project Guide</th>
+        <td>Asst. Prof. [Faculty Project Guide]</td>
+      </tr>
+      <tr>
+        <th>Live Deployment</th>
+        <td><a href="https://snapmemory.vercel.app/" target="_blank">https://snapmemory.vercel.app/</a></td>
+      </tr>
+      <tr>
+        <th>Source Repository</th>
+        <td><a href="https://github.com/kishan0701/snapmemory.git" target="_blank">https://github.com/kishan0701/snapmemory.git</a></td>
+      </tr>
+    </table>
+
+    <!-- 2. Introduction -->
+    <div class="section-title">
+      <span class="number">2</span>
+      Introduction / Background
+    </div>
+    <p>
+      In social, academic, and professional gatherings—such as weddings, college festivals, convocations, and corporate galas—hundreds of high-resolution photographs and videos are captured. However, distributing these memories back to attendees remains disorganized and frustrating.
+    </p>
+    <p>
+      Currently, organizers rely on two conventional options:
+    </p>
+    <ul>
+      <li><strong>Instant Messaging Groups (e.g., WhatsApp):</strong> Enforces severe lossy compression (degrading DSLR photo quality), strips camera EXIF metadata, and exposes personal mobile numbers to large public groups.</li>
+      <li><strong>Cloud Storage Folders (e.g., Google Drive):</strong> Involves cumbersome permission requests, lacks an interactive community gallery, and forces attendees to manually browse through over 1,000 photos just to find the 3 or 4 pictures they appear in.</li>
+    </ul>
+    <p>
+      <strong>SnapMemory</strong> is a modern, zero-install web application that provides centralized, high-fidelity media management. Guests scan a table QR code to view and contribute lossless photos, and use an integrated <strong>Client-Side AI Face Recognition engine</strong> to retrieve all their pictures in under 2 seconds by uploading a single selfie.
+    </p>
+
+    <!-- 3. Problem Statement & Motivation -->
+    <div class="section-title">
+      <span class="number">3</span>
+      Problem Statement and Motivation
+    </div>
+    <div class="highlight-box">
+      <strong>Problem Statement:</strong> There is no unified, zero-install, privacy-first web application that allows event organizers to collect uncompressed event photos while enabling guests to instantly find their personal photos without installing heavy mobile apps or exposing biometric data to cloud servers.
+    </div>
+    <p><strong>Motivation:</strong></p>
+    <ul>
+      <li><strong>Zero App Friction:</strong> Guests do not want to download a native mobile app from Play Store for a 1-day event. SnapMemory loads instantly on any mobile browser.</li>
+      <li><strong>Lossless Quality:</strong> Preserves original camera resolution, aspect ratio, and timestamps without compression artifacts.</li>
+      <li><strong>Biometric Privacy via Edge AI:</strong> Uploading facial biometric scans to third-party servers presents severe privacy and regulatory risks. SnapMemory executes neural network inference locally within the user's browser; no biometric data ever leaves the device.</li>
+      <li><strong>Host Governance:</strong> Event hosts retain full moderation privileges through contributor approval pipelines and real-time event telemetry.</li>
+    </ul>
+
+    <!-- 4. Objectives and Scope -->
+    <div class="section-title">
+      <span class="number">4</span>
+      Objectives and Scope
+    </div>
+    <p><strong>Objectives:</strong></p>
+    <ul>
+      <li>Develop an intuitive web application where organizers create and manage customized event media hubs.</li>
+      <li>Generate automatic, high-resolution vector QR codes for instant physical and digital attendee onboarding.</li>
+      <li>Implement a client-side AI face recognition engine (128-dimensional embedding vectors & Euclidean distance) for instant photo retrieval.</li>
+      <li>Build a responsive Masonry/Grid gallery with fullscreen Lightbox inspection and video player.</li>
+      <li>Create a multi-file drag-and-drop upload zone with progress indicators and client-side format validation.</li>
+      <li>Provide an administrative dashboard for contributor moderation, album management, and storage telemetry.</li>
+      <li>Enable batch image downloads and client-side ZIP packaging via JSZip.</li>
+    </ul>
+
+    <p><strong>Scope (Included):</strong></p>
+    <ul>
+      <li>Dynamic event creation wizard with custom branding, dates, and privacy tiers (Public / Password / Invite-Only).</li>
+      <li>Vector QR code generator with one-click download/print for event signage.</li>
+      <li>Client-Side AI "Find My Photos" selfie scanner with similarity percentage ranking.</li>
+      <li>Contributor Approval Queue (Pending, Approved, Rejected workflows).</li>
+      <li>Real-time telemetry dashboard (visitors, photo counts, downloads, storage metrics).</li>
+      <li>Multi-user authentication (Email/Password with 4-level strength meter + simulated OAuth).</li>
+      <li>Download Center supporting selective batch and complete ZIP archive generation.</li>
+    </ul>
+
+    <p><strong>Out of Scope (Future Work):</strong></p>
+    <ul>
+      <li>Native Android/iOS mobile application publishing.</li>
+      <li>Real-time automated face tracking inside long-duration 4K video files.</li>
+      <li>Integrated commercial payment gateway (e.g. Razorpay) for professional photo monetization.</li>
+    </ul>
+
+    <!-- 5. System Architecture -->
+    <div class="section-title">
+      <span class="number">5</span>
+      System Architecture
+    </div>
+    <p>SnapMemory is engineered as a modern Three-Tier Client-Cloud Reactive Architecture:</p>
+
+    <div class="architecture-grid">
+      <div class="arch-card">
+        <h4>1. Presentation Tier</h4>
+        <p><strong>React 18 & TypeScript:</strong> Component-based UI with strict type safety.<br>
+        <strong>Tailwind CSS:</strong> Dark glassmorphic aesthetic.<br>
+        <strong>Lucide Icons & Framer Motion:</strong> UI animations.<br>
+        <strong>HTML5 Canvas API:</strong> Edge AI face vector extraction.</p>
+      </div>
+      <div class="arch-card">
+        <h4>2. Application Tier</h4>
+        <p><strong>Vite 8 Runtime & Router v7:</strong> Fast routing & bundling.<br>
+        <strong>Service Layer:</strong> Abstracted REST & Supabase client.<br>
+        <strong>Resilient Dual-Mode:</strong> Auto-fallbacks to local storage if offline.<br>
+        <strong>JSZip:</strong> In-browser ZIP bundling.</p>
+      </div>
+      <div class="arch-card">
+        <h4>3. Data Tier</h4>
+        <p><strong>Supabase PostgreSQL 15:</strong> Relational tables (users, events, albums, media, contributors, analytics).<br>
+        <strong>Supabase Storage:</strong> High-resolution asset buckets with CDN caching.</p>
+      </div>
+    </div>
+
+    <div class="flow-step">Execution Flow:
+Guest Scans QR Code → React loads Event Route (/e/:slug) → Service Layer fetches Media & Albums →
+Guest uploads Selfie in "Find My Photos" → Browser extracts 128-D Face Embeddings locally →
+Euclidean distance match filters event photos → Matched photos displayed with % similarity in &lt; 2s</div>
+
+    <p><strong>User Roles:</strong> Host/Admin (full governance & analytics), Approved Contributor (upload privileges), Guest Attendee (view, face search, and download).</p>
+    <p><strong>Security Layer:</strong> Edge biometric isolation, Role-Based Access Control (RBAC), client-side entropy password meters, and sanitized SQL/XSS parameters.</p>
+
+    <!-- 6. Hardware & Software Requirements -->
+    <div class="section-title">
+      <span class="number">6</span>
+      Hardware and Software Requirements
+    </div>
+
+    <table class="meta-table">
+      <tr>
+        <th>Hardware</th>
+        <td>
+          • Processor: Intel Core i3 / AMD Ryzen 3 or higher<br>
+          • RAM: Minimum 4 GB (8 GB recommended)<br>
+          • Hard Disk: 10 GB free disk space<br>
+          • Camera: Mobile camera or webcam (for QR scanning and selfie capture)<br>
+          • Network: Active internet connection (offline local mock mode supported)
+        </td>
+      </tr>
+      <tr>
+        <th>Software (Front End)</th>
+        <td>React 18, TypeScript, Tailwind CSS, Lucide React, HTML5 Canvas API</td>
+      </tr>
+      <tr>
+        <th>Software (Back End & DB)</th>
+        <td>Node.js runtime, Supabase REST API, Supabase PostgreSQL 15, Supabase Blob Storage</td>
+      </tr>
+      <tr>
+        <th>Tools & Build</th>
+        <td>Visual Studio Code, Vite 8, pnpm, Git, GitHub</td>
+      </tr>
+      <tr>
+        <th>Hosting & CDN</th>
+        <td>Vercel Production Deployment with automatic GitHub CI/CD pipeline</td>
+      </tr>
+    </table>
+
+    <!-- 7. Expected Outcome -->
+    <div class="section-title">
+      <span class="number">7</span>
+      Expected Outcome
+    </div>
+    <ul>
+      <li>A working, publicly deployed web application named <strong>SnapMemory</strong> accessible globally at <a href="https://snapmemory.vercel.app/" target="_blank">https://snapmemory.vercel.app/</a>.</li>
+      <li>Instant QR-code event entry eliminating mobile app download barriers.</li>
+      <li>High-precision AI Face Recognition returning personal photos in under 2 seconds.</li>
+      <li>Lossless media archiving without compression degradation.</li>
+      <li>Comprehensive Host Dashboard with live telemetry, storage tracking, and moderation tools.</li>
+      <li>Responsive interface functioning seamlessly across mobile devices, tablets, and desktops.</li>
+    </ul>
+
+    <!-- Signatures -->
+    <div class="signatures">
+      <div class="sig-col">
+        <div class="sig-line"></div>
+        <div class="sig-title">Kishan Yadav / Shivam Yadav<br>(Candidate Signatures)</div>
+      </div>
+      <div class="sig-col">
+        <div class="sig-line"></div>
+        <div class="sig-title">Project Guide<br>(Asst. Prof.)</div>
+      </div>
+      <div class="sig-col">
+        <div class="sig-line"></div>
+        <div class="sig-title">Head of Department<br>(Computer Science)</div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
